@@ -91,6 +91,18 @@ app.get('/checkUser', (req,res)=>{
     })
 });
 
+app.get('/loginUser', (req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.find({email: req.query.email , password: req.query.password}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data:docs});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    })
+});
+
 app.listen(3000,()=>{
     console.log("Server is listing at port 3000");
 });

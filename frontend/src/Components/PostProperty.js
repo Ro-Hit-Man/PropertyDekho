@@ -15,7 +15,6 @@ export class PostProperty extends Component {
             description:'',
             areaSize:'',
             carpetArea:'',
-            additionalAreaSize:'',
             yearBuild:'',
             bedrooms:'',
             bathrooms:'',
@@ -58,70 +57,50 @@ export class PostProperty extends Component {
     }
     sendData()
     {
-        var p = this.state;
-        axios.post("http://localhost:3000/postProperty", p).then((res)=>{
-            alert(res.data.data);
-        });
+        if(this.state.propertyTitle == "" || this.state.propertyTitle == null || this.state.propertyTitle.length == 0){
+            alert("Property Title Cannot be Empty");
+        }
+        else if(this.state.propertyType == ""){
+                alert("Property Type Cannot be Empty");
+             }
+             else if(this.state.propertyCatagory == ""){
+                    alert("Property Catagory Cannot be Empty");
+                  }
+                  else if(this.state.price == ""){
+                          alert("Price Cannot be Empty");
+                        }
+                        else if(this.state.location == ""){
+                                alert("Location Cannot be Empty");
+                             }
+                             else if(this.state.description == ""){
+                                    alert("Description Cannot be Empty");
+                                    }
+                                   else if(this.state.areaSize == ""){
+                                            alert("Area Size Cannot be Empty");
+                                        }
+                                        else if(this.state.landArea == ""){
+                                                alert("Land Area Cannot be Empty");
+                                             }
+                                            else if(this.state.yearBuild == ""){
+                                                    alert("Year Build Cannot be Empty");
+                                                 }
+                                                else if(this.state.bedrooms == ""){
+                                                        alert("Bedrooms Cannot be Empty");
+                                                    }
+                                                    else if(this.state.bathrooms == ""){
+                                                            alert("Bathrooms Cannot be Empty");
+                                                          }
+                                                          else{
+                                                            var p = this.state;
+                                                            axios.post("http://localhost:3000/postProperty", p).then((res)=>{
+                                                                alert(res.data.data);
+                                                            });
+                                                          }
     }
 
     // validate()
     // {
-    //     if(this.state.propertyTitle == "" || this.state.propertyTitle == null || this.state.propertyTitle.length == 0){
-    //         this.state.isValid = false;
-    //         alert("Property Title Cannot be Empty");
-    //     }
-    //     if(this.state.propertyType == ""){
-    //         this.state.isValid = false;
-    //         alert("Property Type Cannot be Empty");
-    //     }
-    //     if(this.state.propertyCatagory == ""){
-    //         this.state.isValid = false;
-    //         alert("Property Catagory Cannot be Empty");
-    //     }
-    //     if(this.state.price == ""){
-    //         this.state.isValid = false;
-    //         alert("Price Cannot be Empty");
-    //     }
-    //     if(this.state.location == ""){
-    //         this.state.isValid = false;
-    //         alert("Location Cannot be Empty");
-    //     }
-    //     if(this.state.description == ""){
-    //         this.state.isValid = false;
-    //         alert("Description Cannot be Empty");
-    //     }
-    //     if(this.state.propertyId == ""){
-    //         this.state.isValid = false;
-    //         alert("Property Id Cannot be Empty");
-    //     }
-    //     if(this.state.areaSize == ""){
-    //         this.state.isValid = false;
-    //         alert("Area Size Cannot be Empty");
-    //     }
-    //     if(this.state.landArea == ""){
-    //         this.state.isValid = false;
-    //         alert("Land Area Cannot be Empty");
-    //     }
-    //     if(this.state.additionalAreaSize == ""){
-    //         this.state.isValid = false;
-    //         alert("Additional Area Size Cannot be Empty");
-    //     }
-    //     if(this.state.yearBuild == ""){
-    //         this.state.isValid = false;
-    //         alert("Year Build Cannot be Empty");
-    //     }
-    //     if(this.state.bedrooms == ""){
-    //         this.state.isValid = false;
-    //         alert("Bedrooms Cannot be Empty");
-    //     }
-    //     if(this.state.bathrooms == ""){
-    //         this.state.isValid = false;
-    //         alert("Bathrooms Cannot be Empty");
-    //     }
-    //     if(this.state.privateNote == ""){
-    //         this.state.isValid = false;
-    //         alert("Private Note Cannot be Empty");
-    //     }
+    //     
     //     this.sendData(this.state.isValid);
     // }
 
@@ -183,10 +162,6 @@ export class PostProperty extends Component {
                                 <div className='Post-land'>
                                     <label>Carpet Area (Only Digits)</label>
                                     <input placeholder='Land Area' name='landArea' value={this.state.landArea} onChange={(e)=>{this.getDataFromForm(e);}}></input>
-                                </div>
-                                <div className='Post-additional-area'>
-                                    <label>Additional Area Size</label>
-                                    <input placeholder='Additional Area Size' name='additionalAreaSize' value={this.state.additionalAreaSize} onChange={(e)=>{this.getDataFromForm(e);}}></input>
                                 </div>
                             </div>
                             <div className='Post-wrapper'>

@@ -72,6 +72,11 @@ export class Register extends Component {
                                     else{
                                         axios.post('http://localhost:3000/registerUser', user).then((res)=>{
                                             alert(res.data.data);
+                                            document.getElementById('name').value = '';
+                                            document.getElementById('email').value = '';
+                                            document.getElementById('password').value = '';
+                                            document.getElementById('repassword').value = '';
+                                            document.getElementById('number').value = '';
                                          });
                                     }
                                 });
@@ -84,7 +89,7 @@ export class Register extends Component {
             <div class='register-container'>
                 <div class='register-wrapper'>
                     <h1>Register</h1>
-                    <form>
+                    <form id='registerForm'>
                         <div className='radio-div'>
                             <input type='radio' name='iam' id='buyer' value={this.state.buyer} onChange={(e)=>{this.getDataFromRadio(e);}}></input>
                             <label>Buyer</label>
@@ -98,7 +103,7 @@ export class Register extends Component {
                         <input type='password' id='password' placeholder='Enter Password' name='password' value={this.state.password} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
                         <input type='password' id='repassword' placeholder='Re-Enter Password' name='repassword' value={this.state.repassword} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
                         <input id='number' placeholder='Enter Mobile Number'name='number' value={this.state.number} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
-                        <button type='button' onClick={()=>{this.register();}}>REGISTER</button>
+                        <button type='reset' onClick={()=>{this.register();}}>REGISTER</button>
                     </form>
                     <hr/><span>or register using</span>
                     <div class='register-option'>
