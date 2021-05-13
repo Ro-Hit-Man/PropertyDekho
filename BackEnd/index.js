@@ -79,6 +79,18 @@ app.post('/registerUser', bodyParser.json(), (req,res)=>{
     });
 });
 
+app.get('/getUser', (req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.find({_id:ObjectID(req.query.id)}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data:docs});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
+
 app.get('/checkUser', (req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
     userCollection.find({email: req.query.email}).toArray((err,docs)=>{

@@ -246,7 +246,14 @@ form button{
   margin-left: 72%;
   padding-top: 10px;
 }
-.login-post-btn button{
+.login-post-btn div{
+    /* width: 49%; */
+    height: fit-content;
+}
+#post-btn-div{
+  width: 350%;
+}
+.login-post-btn div button{
   color: white;
   background-color: rgb(235, 57, 95);
   padding: 7px 15px 7px 15px;
@@ -255,11 +262,11 @@ form button{
   border: 1px solid white;
   cursor: pointer;
 }
-.login-post-btn button span{
+.login-post-btn div button span{
   color: yellow;
   font-weight: lighter;
 }
-.login-post-btn img{
+.login-post-btn div img{
   height: 25px;
   cursor: pointer;
 }
@@ -267,7 +274,7 @@ form button{
   position:absolute;
   top: 40px;
   left: 91%;
-  height: 220px;
+  height: fit-content;
   width: 130px;
   background-color: black;
   display: none;

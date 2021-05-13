@@ -98,12 +98,6 @@ export class PostProperty extends Component {
                                                           }
     }
 
-    // validate()
-    // {
-    //     
-    //     this.sendData(this.state.isValid);
-    // }
-
     render() {
         return (
             <div className="Post-container">

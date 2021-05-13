@@ -13,9 +13,7 @@ export class Register extends Component {
             password:'',
             repassword:'',
             number:'',
-            buyer:false,
-            owner:false,
-            broker:false,
+            iam:'',
             passwordRegex : /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/,
             emailRegex : /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/
         }
@@ -25,13 +23,9 @@ export class Register extends Component {
     {
         this.setState({[e.target.name]:e.target.value});
     }
-    getDataFromRadio(e)
-    {
-        this.setState({[e.target.id]:e.target.checked});
-    }
-
+    
     register()
-    {
+    {    
         if(this.state.name == "" || this.state.name == null || this.state.name.length == 0){
             document.getElementById('name').style.border = "3px solid red";
             alert('Name cannot be Empty');
@@ -52,7 +46,7 @@ export class Register extends Component {
                             document.getElementById('number').style.border = "3px solid red";
                             alert('Enter valid mobile number');
                         }
-                          else if(this.state.buyer == false && this.state.owner == false && this.state.broker == false){
+                          else if(this.state.buyer == ""){
                                 alert('Choose one either buyer, owner or broker')
                           }
                             else{
@@ -61,9 +55,7 @@ export class Register extends Component {
                                     email:this.state.email,
                                     password:this.state.password,
                                     number:this.state.number,
-                                    buyer:this.state.buyer,
-                                    owner:this.state.owner,
-                                    broker:this.state.broker,
+                                    iam:this.state.iam
                                 }
                                 axios.get('http://localhost:3000/checkUser?email='+user.email).then((res)=>{
                                     if( res.data.data[0] != undefined){
@@ -77,6 +69,7 @@ export class Register extends Component {
                                             document.getElementById('password').value = '';
                                             document.getElementById('repassword').value = '';
                                             document.getElementById('number').value = '';
+                                            this.props.history.push('/Login');
                                          });
                                     }
                                 });
@@ -91,12 +84,12 @@ export class Register extends Component {
                     <h1>Register</h1>
                     <form id='registerForm'>
                         <div className='radio-div'>
-                            <input type='radio' name='iam' id='buyer' value={this.state.buyer} onChange={(e)=>{this.getDataFromRadio(e);}}></input>
-                            <label>Buyer</label>
-                            <input type='radio' name='iam' id='owner' value={this.state.owner} onChange={(e)=>{this.getDataFromRadio(e);}}></input>
-                            <label>Owner</label>
-                            <input type='radio' name='iam' id='broker' value={this.state.broker} onChange={(e)=>{this.getDataFromRadio(e);}}></input>
-                            <label>Broker</label>
+                            <select name='iam' onChange={(e)=>{this.getDataFromLoginForm(e);}}>
+                                <option value=''>I AM:</option>
+                                <option value='buyer'>Buyer</option>
+                                <option value='owner'>Owner</option>
+                                <option value='broker'>Broker</option>
+                            </select>
                         </div>
                         <input id='name' placeholder='Enter Name' name='name' value={this.state.name} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
                         <input id='email' placeholder='Enter Email' name='email' value={this.state.email} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
