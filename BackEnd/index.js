@@ -43,17 +43,17 @@ app.get('/detailProperty',(req,res)=>{
     });
 });
 
-// app.get('/searchProperty',(req,res)=>{
-//     var propertyCollection = connection.db('myhome').collection('property');
-//     propertyCollection.find().toArray((err,docs)=>{
-//         if(!err){
-//             res.send({status:"ok",data:docs});
-//         }
-//         else{
-//             res.send({status:"failed",data:err});
-//         }
-//     });
-// });
+app.get('/searchProperty',(req,res)=>{
+    var propertyCollection = connection.db('myhome').collection('property');
+    propertyCollection.find({city:"",budget:""}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data:docs});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
 
 app.post('/postProperty', bodyParser.json(), (req,res)=>{
     var propertyCollection = connection.db('myhome').collection('property');

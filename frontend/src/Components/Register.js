@@ -55,7 +55,8 @@ export class Register extends Component {
                                     email:this.state.email,
                                     password:this.state.password,
                                     number:this.state.number,
-                                    iam:this.state.iam
+                                    iam:this.state.iam,
+                                    image: ""
                                 }
                                 axios.get('http://localhost:3000/checkUser?email='+user.email).then((res)=>{
                                     if( res.data.data[0] != undefined){

@@ -9,6 +9,7 @@ import PostProperty from './PostProperty';
 import Profile from './Profile';
 import Register from './Register';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 
 
 export default function Header(props) {
@@ -44,6 +45,10 @@ export default function Header(props) {
         dispatch( {type:"LOGIN_FALSE"} );
         dispatch( {type:"LOGGEDOUT"} );
         dispatch( {type:"NOT_BUYER"} );
+    }
+
+    function search(){
+        // props.history.push('/Listing');
     }
 
     return (
@@ -84,7 +89,7 @@ export default function Header(props) {
                                 <img src='images/money.png' id='money-img'></img>
                                 <input placeholder='Enter Location or Landmark' id='location' name='location' value={location} onChange={(e)=>{setLocation(e.target.value)}}></input>
                                 <input placeholder='Budget' id='budget' name='budget' value={budget} onChange={(e)=>{setBudget(e.target.value)}}></input>
-                                <NavLink exact to='/Listing'><button>SEARCH</button></NavLink>
+                                <button onClick={()=>{search();}}>SEARCH</button>
                             </div>
                         </form>
                     </div>

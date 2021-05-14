@@ -52,7 +52,7 @@ export class Details extends Component {
                 </div>
                 <div class='details-div'>
                     <h1>{this.state.property.propertyTitle} - <span>{this.state.property.areaSize} sq ft</span></h1>
-                    <span class='location-span'>{this.state.property.location}</span>
+                    <span class='location-span'>{this.state.property.location} , {this.state.property.landmark} , {this.state.property.city} , {this.state.property.state} -- {this.state.property.zipcode}</span>
                     <h2>{this.state.property.price}</h2>
                     <div class='status-div'>
                         <div>

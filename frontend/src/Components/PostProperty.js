@@ -12,6 +12,10 @@ export class PostProperty extends Component {
             propertyCatagory:'',
             price:'',
             location:'',
+            landmark:'',
+            city:'',
+            state:'',
+            zipcode:'',
             description:'',
             areaSize:'',
             carpetArea:'',
@@ -62,40 +66,52 @@ export class PostProperty extends Component {
         }
         else if(this.state.propertyType == ""){
                 alert("Property Type Cannot be Empty");
-             }
-             else if(this.state.propertyCatagory == ""){
-                    alert("Property Catagory Cannot be Empty");
-                  }
-                  else if(this.state.price == ""){
-                          alert("Price Cannot be Empty");
-                        }
-                        else if(this.state.location == ""){
-                                alert("Location Cannot be Empty");
-                             }
-                             else if(this.state.description == ""){
-                                    alert("Description Cannot be Empty");
-                                    }
-                                   else if(this.state.areaSize == ""){
-                                            alert("Area Size Cannot be Empty");
-                                        }
-                                        else if(this.state.landArea == ""){
-                                                alert("Land Area Cannot be Empty");
-                                             }
-                                            else if(this.state.yearBuild == ""){
-                                                    alert("Year Build Cannot be Empty");
-                                                 }
-                                                else if(this.state.bedrooms == ""){
-                                                        alert("Bedrooms Cannot be Empty");
-                                                    }
-                                                    else if(this.state.bathrooms == ""){
-                                                            alert("Bathrooms Cannot be Empty");
-                                                          }
-                                                          else{
-                                                            var p = this.state;
-                                                            axios.post("http://localhost:3000/postProperty", p).then((res)=>{
-                                                                alert(res.data.data);
-                                                            });
-                                                          }
+        }
+        else if(this.state.propertyCatagory == ""){
+                alert("Property Catagory Cannot be Empty");
+        }
+        else if(this.state.price == ""){
+                alert("Price Cannot be Empty");
+        }
+        else if(this.state.location == ""){
+                alert("Location Cannot be Empty");
+        }
+        else if(this.state.landmark == ""){
+                alert("Landmark Cannot be Empty");
+        }
+        else if(this.state.city == ""){
+                alert("city Cannot be Empty");
+        }
+        else if(this.state.state == ""){
+                alert("State Cannot be Empty");
+        }
+        else if(this.state.zipcode == ""){
+                alert("Zipcode Cannot be Empty");
+        }
+        else if(this.state.description == ""){
+                alert("Description Cannot be Empty");
+        }
+        else if(this.state.areaSize == ""){
+                alert("Area Size Cannot be Empty");
+        }
+        else if(this.state.landArea == ""){
+                alert("Land Area Cannot be Empty");
+        }
+        else if(this.state.yearBuild == ""){
+                alert("Year Build Cannot be Empty");
+        }
+        else if(this.state.bedrooms == ""){
+                alert("Bedrooms Cannot be Empty");
+        }
+        else if(this.state.bathrooms == ""){
+                alert("Bathrooms Cannot be Empty");
+        }
+        else{
+            var p = this.state;
+            axios.post("http://localhost:3000/postProperty", p).then((res)=>{
+                alert(res.data.data);
+            });
+        }
     }
 
     render() {
@@ -105,6 +121,7 @@ export class PostProperty extends Component {
                     <h1>Submit New Property</h1>
                 </div>
                 <form>
+                    <div className='gen-desc-div-wrapper'>
                     <div className="Post-general">
                         <h1>General Property Info</h1>
                         
@@ -137,43 +154,50 @@ export class PostProperty extends Component {
                                 <div  className='Post-location'>
                                     <label>Location</label>
                                     <input placeholder='272 Alpha Rock Suit CA' name='location' value={this.state.location} onChange={(e)=>{this.getDataFromForm(e);}}></input>
-                                </div>
-                                <button>SELECT ON GOOGLE</button>
-                            </div>
-                        
-                    
-                    
-                        <h1>Description</h1>
-                        <textarea placeholder='Description' name='description' value={this.state.description} onChange={(e)=>{this.getDataFromForm(e);}}></textarea>
-    
-                    
-                        <h1>Details</h1>
-                            <div className='Post-wrapper'>
-                                <div className='Post-area'>
-                                    <label>Area Size Sq.Ft (Only Digits)</label>
-                                    <input placeholder='Area Size' name='areaSize' value={this.state.areaSize} onChange={(e)=>{this.getDataFromForm(e);}}></input>
-                                </div>
-                                <div className='Post-land'>
-                                    <label>Carpet Area (Only Digits)</label>
-                                    <input placeholder='Land Area' name='landArea' value={this.state.landArea} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    <div className='post-city-div'>
+                                        <input placeholder='Landmark' name='landmark' value={this.state.landmark} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                        <input id='city' placeholder='City' name='city' value={this.state.city} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    </div>
+                                    <div className='post-state-div'>
+                                        <input placeholder='State' name='state' value={this.state.state} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                        <input id='zip' placeholder='Zip Code' name='zipcode' value={this.state.zipcode} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    </div>
                                 </div>
                             </div>
-                            <div className='Post-wrapper'>
-                            <div className='Post-year-build'>
-                                    <label>Year Build</label>
-                                    <input placeholder='Year Build' name='yearBuild' value={this.state.yearBuild} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                        </div>    
+                    
+                        <div className='post-description'>
+                            <h1>Description</h1>
+                            <textarea placeholder='Description' name='description' value={this.state.description} onChange={(e)=>{this.getDataFromForm(e);}}></textarea>
+                            <h1>Details</h1>
+                                <div className='Post-wrapper'>
+                                    <div className='Post-area'>
+                                        <label>Area Size Sq.Ft (Only Digits)</label>
+                                        <input placeholder='Area Size' name='areaSize' value={this.state.areaSize} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    </div>
+                                    <div className='Post-land'>
+                                        <label>Carpet Area (Only Digits)</label>
+                                        <input placeholder='Land Area' name='landArea' value={this.state.landArea} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    </div>
                                 </div>
-                                <div className='Post-bedrooms'>
-                                    <label>Bedrooms</label>
-                                    <input type='number' name='bedrooms' value={this.state.bedrooms} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                <div className='Post-wrapper'>
+                                    <div className='Post-year-build'>
+                                        <label>Year Build</label>
+                                        <input placeholder='Year Build' name='yearBuild' value={this.state.yearBuild} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    </div>
+                                    <div className='Post-bedrooms'>
+                                        <label>Bedrooms</label>
+                                        <input type='number' name='bedrooms' value={this.state.bedrooms} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    </div>
+                                    <div className='Post-bathrooms'>
+                                        <label>Bathrooms</label>
+                                        <input type='number' name='bathrooms' value={this.state.bathrooms} onChange={(e)=>{this.getDataFromForm(e);}}></input>
+                                    </div>
                                 </div>
-                                <div className='Post-bathrooms'>
-                                    <label>Bathrooms</label>
-                                    <input type='number' name='bathrooms' value={this.state.bathrooms} onChange={(e)=>{this.getDataFromForm(e);}}></input>
-                                </div>
-                            </div>
-                        
-                
+                        </div>
+                    </div>
+                    
+                    <div className='post-other'>
                         <h1>Property Anemities</h1>
                         <div className='row1'>
                             <div className='Post-wrapper'>
