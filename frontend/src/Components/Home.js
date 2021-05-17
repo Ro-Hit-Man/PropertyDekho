@@ -1,10 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 export default function Home(props) {
 
     const [property, setProperty] = useState([]);
+
+    const islogin = useSelector(state => state.isLogin);
+    const isBuyer = useSelector(state => state.canPostProperty);
 
     useEffect(() => {
         axios.get("http://localhost:3000/listProperty").then((res)=>{
@@ -17,13 +21,13 @@ export default function Home(props) {
     }
 
     var listProperty = property.map((p)=>{
-        return <div class="item" key={p._id}>
-                    <img src={p.image} alt=""/>
-                    <span>{p.location}</span>
-                    <h4>{p.propertyTitle}</h4>
+        return <div className="item" key={p._id}>
+                    <img id='proImg' src={"Details/backend/userUploads/"+p.PropertyImages[0]} alt=""/>
+                    <span>{p.PropertyDetails.location}</span>
+                    <h4>{p.PropertyDetails.propertyTitle}</h4>
                     <div>
                         <img src='images/home.png'></img>
-                        <span>{p.areaSize} sq. ft.</span>
+                        <span>{p.PropertyDetails.areaSize} sq. ft.</span>
                     </div>
                 <button onClick={()=>{showDetails(p._id)}}>VIEW DETAILS</button>
                 </div>
@@ -95,7 +99,7 @@ export default function Home(props) {
                     <div>
                         <h1>Want to Sell <br/>Property?</h1>
                         <p>Let us create a tailored strategic marketing plan and keep track of the selling process.</p>
-                        <NavLink exact to='/PostProperty'><button>Post Property</button></NavLink>
+                        {isBuyer?"":<NavLink exact to={islogin?"/PostProperty":"/Login"}><button>Post Property</button></NavLink>}
                     </div>
                 </div>
                 <div class='testimonial-section'>
