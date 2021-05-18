@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import './Login.css'
 
 export default function Login(props) {
 
@@ -25,6 +26,7 @@ export default function Login(props) {
                 }
                 var uid = res.data.data[0]._id;
                 dispatch({type: "LOGGEDIN",payload: uid });
+                localStorage.setItem("LOGIN_ID", uid);
                 props.history.push('/');
             }
         });

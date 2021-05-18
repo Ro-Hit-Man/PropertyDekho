@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import './PostProperty.css'
 
 export default function PostProperty() {
 
@@ -353,7 +354,7 @@ export default function PostProperty() {
                         </div>
 
                         <h1>Property Images</h1>
-                        <h5 style={{color:'red'}}>You can Choose Only 7 Images At Max</h5>
+                        <h5>You can Choose Only 7 Images At Max</h5>
                         <input id='file' name='property' onChange={(e)=>{setValue(e);}}  type='file' multiple></input>
                 
                         <button onClick={()=>{sendData();}}>SUBMIT PROPERTY</button>

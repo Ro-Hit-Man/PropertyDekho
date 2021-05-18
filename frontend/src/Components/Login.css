@@ -1,0 +1,79 @@
+.login-container{
+    height: 850px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: azure;
+  }
+  .login-wrapper{
+      width: 30%;
+      height: 650px;
+      box-shadow: 0px 4px 6px 0px grey;
+      background-color: #f8ceec;
+     background-image: linear-gradient(315deg, #f8ceec 0%, #a88beb 74%);
+  
+  }
+  .login-wrapper h1{
+    margin-top: 20px;
+    font-weight: 600;
+    margin-left: 25px;
+  }
+  .login-wrapper form input{
+    width: 85%;
+  }
+  .login-wrapper form button{
+    width: 90%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  .login-wrapper span{
+    margin-left: 40%;
+  }
+  .login-option{
+    display: flex;
+    width: 100%;
+    margin-top: 30px;
+  }
+  .facebook{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 49%;
+    border-right: 1px solid black;
+  }
+  .facebook span{
+    margin: 5px;
+    cursor: pointer;
+  }
+  .facebook img{
+    height: 22px;
+    cursor: pointer;
+  }
+  .google{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+  }
+  .google span{
+    margin: 5px;
+    cursor: pointer;
+  }
+  .google img{
+    height: 22px;
+    cursor: pointer;
+  }
+  .login-wrapper p{
+    margin-top: 150px;
+    font-weight: 400;
+    margin-left: 27%;
+  }
+  .login-wrapper p span{
+    color: rgb(235, 57, 95);
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  

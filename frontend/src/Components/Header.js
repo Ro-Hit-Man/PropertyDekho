@@ -8,25 +8,22 @@ import Login from './Login';
 import PostProperty from './PostProperty';
 import Profile from './Profile';
 import Register from './Register';
-import { Redirect } from 'react-router-dom';
-import axios from 'axios';
-
+import './Header.css'
 
 export default function Header(props) {
 
-    const [location, setLocation] = useState("");
-    const [budget, setBudget] = useState("");
+    const [city, setCity] = useState("");
     const [id, setId] = useState("");
 
+    const searchData = useSelector(state => state.searchData);
     const islogin = useSelector(state => state.isLogin);
     const isBuyer = useSelector(state => state.canPostProperty);
     const dispatch = useDispatch();
 
     function changeLiStyle(e){
         document.getElementById('buy').style.backgroundColor = "blueviolet";
-        document.getElementById('plot').style.backgroundColor = "blueviolet";
         document.getElementById('rent').style.backgroundColor = "blueviolet";
-        document.getElementById('pg').style.backgroundColor = "blueviolet";
+        document.getElementById('villa').style.backgroundColor = "blueviolet";
         document.getElementById('house').style.backgroundColor = "blueviolet";
         document.getElementById('apartment').style.backgroundColor = "blueviolet";
         document.getElementById(e.target.id).style.backgroundColor = "rgb(45, 5, 83)";
@@ -45,12 +42,17 @@ export default function Header(props) {
         dispatch( {type:"LOGIN_FALSE"} );
         dispatch( {type:"LOGGEDOUT"} );
         dispatch( {type:"NOT_BUYER"} );
+        localStorage.setItem("LOGIN_ID", "no");
+        // props.history.push('/');
     }
 
     function search(){
-        // props.history.push('/Listing');
+        var data = {
+            city: city,
+            type: id,
+        }
+        dispatch({type:"SEARCHED",payload:data});
     }
-
     return (
         <div>
                 <div class='Header'>
@@ -86,10 +88,13 @@ export default function Header(props) {
                         <form>
                             <div class='search-wrapper'>
                                 <img src='images/location.png' id='location-img'></img>
-                                <img src='images/money.png' id='money-img'></img>
-                                <input placeholder='Enter Location or Landmark' id='location' name='location' value={location} onChange={(e)=>{setLocation(e.target.value)}}></input>
-                                <input placeholder='Budget' id='budget' name='budget' value={budget} onChange={(e)=>{setBudget(e.target.value)}}></input>
-                                <button onClick={()=>{search();}}>SEARCH</button>
+                                <select onChange={(e)=>{setCity(e.target.value)}}  onClick={()=>{search();}}>
+                                    <option value=''>Select City</option>
+                                    <option value='Delhi'>Delhi</option>
+                                    <option value='Mumbai'>Mumbai</option>
+                                    <option value='Bangalore'>Bangalore</option>    
+                                </select>
+                                <NavLink to='/Listing'><button>SEARCH</button></NavLink>
                             </div>
                         </form>
                     </div>
@@ -100,7 +105,7 @@ export default function Header(props) {
                     <Route path="/PostProperty" exact component={PostProperty}/>
                     <Route path="/Login" exact component={Login}/>
                     <Route path="/Register" exact component={Register}/>
-                    <Route path="/Listing" exact component={Listing}/>
+                    <Route path="/Listing" component={Listing}/>
                     <Route path="/Details/:id"  component={Details}/>
                     <Route path="/Profile" exact component={Profile}/>
                 </Switch>

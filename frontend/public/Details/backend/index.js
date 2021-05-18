@@ -13,9 +13,9 @@ app.use(express.static(path.join(__dirname,'userUploads')));
 
 var client = new MongoClient('mongodb+srv://myhome:myhome@cluster0.zj3m5.mongodb.net/myhome?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true});
 var connection;
-client.connect((err,db)=>{
+client.connect((err, db)=>{
     if(!err){
-        connection=db;
+        connection = db;
         console.log("Database Connected Successfully");
     }
     else{
@@ -47,7 +47,7 @@ app.post('/postProperty', bodyParser.json(),(req,res)=>{
 
 app.get('/listProperty',(req,res)=>{
     var propertyCollection = connection.db('myhome').collection('property');
-    propertyCollection.find().toArray((err,docs)=>{
+    propertyCollection.find({}).toArray((err,docs)=>{
         if(!err){
             res.send({status:"ok",data:docs});
         }
@@ -80,18 +80,6 @@ app.get('/searchProperty',(req,res)=>{
         }
     });
 });
-
-// app.post('/postProperty', bodyParser.json(), (req,res)=>{
-//     var propertyCollection = connection.db('myhome').collection('property');
-//     propertyCollection.insert(req.body , (err,result)=>{
-//         if(!err){
-//             res.send({status:"ok",data:"Property Posted Succesfully"});
-//         }
-//         else{
-//             res.send({status:"failed",data:err});
-//         }
-//     });
-// });
 
 app.post('/registerUser', bodyParser.json(), (req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
@@ -139,6 +127,52 @@ app.get('/loginUser', (req,res)=>{
             res.send({status:"failed",data:err});
         }
     })
+});
+
+app.post('/uploadDP', bodyParser.json(),(req,res)=>{
+    upload(req,res,(err)=>{
+        if(err){
+            console.log("Error Occured during upload ");
+            console.log(err);
+            res.send({status:"failed", data:err});
+        }
+        else{
+            var userCollection = connection.db('myhome').collection('user');
+            var image = req.files.profile[0].filename;
+            userCollection.update({_id:ObjectID(req.body.id)},{$set:{dp:image}},(err,result)=>{
+                if(!err){
+                    res.send({status:"ok",data:"File Uploaded Succesfully"});
+                }
+                else{
+                    res.send({status:"failed",data:err});
+                }
+            });
+        }
+    });
+});
+
+app.post('/updateName' , bodyParser.json(),(req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.update({_id:ObjectID(req.body.id)},{$set:{name:(req.body.name)}},(err,result)=>{
+        if(!err){
+            res.send({status:"ok",data:"Changes Made Succesfully"});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    }); 
+});
+
+app.post('/updateNumber' , bodyParser.json(),(req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.update({_id:ObjectID(req.body.id)},{$set:{number:(req.body.number)}},(err,result)=>{
+        if(!err){
+            res.send({status:"ok",data:"Changes Made Succesfully"});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    }); 
 });
 
 app.listen(3000,()=>{

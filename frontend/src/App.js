@@ -1,14 +1,27 @@
 import './App.css';
 import Header from './Components/Header';
 import {BrowserRouter as Router} from 'react-router-dom';
-import Login from './Components/Login';
-import Register from './Components/Register';
-import Listing from './Components/Listing';
-import Details from './Components/Details';
-import Home from './Components/Home';
-import Profile from './Components/Profile';
-// import PostProperty from './Components/PostProperty';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      if(localStorage.getItem("LOGIN_ID") == 'no'){
+      }else{
+        var id = localStorage.getItem("LOGIN_ID");
+        dispatch({type: "LOGIN_TRUE"});
+        dispatch({type: "LOGGEDIN",payload: id });
+        axios.get('http://localhost:3000/getUser?id='+id).then((res)=>{
+            if(res.data.data[0].iam == "buyer"){
+              dispatch({type: "BUYER"});
+          }
+        });
+      }
+  }, [])
  
   return (
     <Router>

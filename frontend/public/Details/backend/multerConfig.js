@@ -17,13 +17,23 @@ var multerOptions = {
             storage: storage,
             fileFilter: function(req,file,callback){
                 var ext = path.extname(file.originalname);
-                if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
-                    return callback(new Error('Only images are allowed [ png , jpg & jpeg ]'));
+                var fieldName = file.fieldname;
+                
+                if(fieldName == "property"){
+                    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+                        return callback(new Error('Only images are allowed [ png , jpg & jpeg ]'));
+                    }
+                    callback(null, true);   
                 }
-                callback(null, true);
+                if(fieldName=="profile"){
+                    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+                        return callback(new Error('Only images are allowed for profile'));
+                    }
+                    callback(null, true);
+                }
             }
 }
 
-var upload = multer(multerOptions).fields([{name:'property' , maxCount:7}]);
+var upload = multer(multerOptions).fields([{name:"profile", maxCount:1},{name:'property' , maxCount:7}]);
 
 module.exports = upload;

@@ -1,0 +1,125 @@
+.details-container{
+    width: 100%;
+    height: 2000px;
+    padding-top: 20px;
+  }
+  .details-div{
+    width: 60%;
+    margin-left: 100px;
+    height: fit-content;
+    background-color: white;
+    padding-bottom: 20px;
+  }
+  .details-div h1 span{
+    color: grey;
+  }
+  .location-span{
+    color: gray;
+    font-size: 18px;
+  }
+  .details-div h2{
+    padding-top: 30px;
+  }
+  .status-div{
+    display: flex;
+    width: 80%;
+    height: fit-content;
+    justify-content: space-between;
+    margin-top: 35px;
+  }
+  .status-div div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .status-div div span{
+    color: grey;
+    font-size: 18px;
+  }
+  .details-description-div{
+    margin-top: 100px;
+    width: 95%;
+  }
+  .details-description-div h2{
+    font-weight: 500;
+  }
+  .details-description-div p{
+    margin-top: 30px;
+  }
+  .details-amenities h2,.details-furnishings h2{
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+  .details-amenities-div,.details-furnishings-div{
+    width: 100%;
+    display: flex;
+  }
+  .details-amenities-div div,.details-furnishings-div div{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+  }
+  .details-amenities-div span,.details-furnishings-div span{
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: 700
+  }
+  .details-furnishings-div span{
+    font-weight: 700
+  }
+  .details-amenities-div img,.details-furnishings-div img{
+    height: 27px;
+  }
+  .carosuel-div{
+    background-color: #6c33a3;
+    margin-bottom: 50px;
+  }
+  .contact-div{
+    width: 30%;
+    height: 650px;
+    box-shadow: 0px 4px 8px 0px #757cf3;
+    position: absolute;
+    top: 1000px;
+    left: 68%;
+  }
+  .contact-div img{
+    height: 150px;
+    margin-top: 20px;
+    margin-left: 35%;
+  }
+  .contact-div h3{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .contact-div form input{
+    width: 80%;
+  }
+  .contact-div button{
+    width: 85%;
+  }
+  .detail-carousel-div{
+    width: 100%;
+    height: 550px;
+    background-color: #6c33a3;
+    margin-bottom: 50px;
+  }
+  #detail-carousel{
+    width: 100%;
+    margin: 0 auto;
+    height: 530px;
+  }
+  .carousel-item{
+    height: 550px;
+    width: 100%;
+  }
+  .carousel-item img{
+     width: 50%;
+     height: 100%;
+     margin-left: 25%;
+  }
+  
