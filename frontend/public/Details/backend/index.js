@@ -5,6 +5,7 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var path = require('path');
 var upload = require('./multerConfig');
+var fs = require('fs');
 
 var app = express();
 app.use(cors());
@@ -147,6 +148,19 @@ app.post('/uploadDP', bodyParser.json(),(req,res)=>{
                     res.send({status:"failed",data:err});
                 }
             });
+        }
+    });
+});
+
+app.post('/removeDP',bodyParser.json(),(req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.update({_id:ObjectID(req.body.id)},{$set:{dp:""}},(err,result)=>{
+        if(!err){
+            fs.unlinkSync('userUploads/'+req.body.dp);
+            res.send({status:"ok",data:"DP Removed Succesfully"});
+        }
+        else{
+            res.send({status:"failed",data:err});
         }
     });
 });

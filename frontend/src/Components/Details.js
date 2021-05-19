@@ -1,31 +1,36 @@
 import axios from 'axios';
-import React, { Component } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Details.css'
 
-export class Details extends Component {
+export default function Details(props) {
+    
+    const [property, setproperty] = useState("");
+    const [images, setimages] = useState("");
+    const [name, setName] = useState("");
+    const [type, setType] = useState("");
+    const [pic, setPic] = useState("");
+    const [email, setEmail] = useState("");
+    const [number, setNumber] = useState("");
+    // const [userId, setuserId] = useState("");
 
-    constructor(props){
-        super(props);
-        this.state={
-            property:{},
-            images:[],
-            id:props.match.params.id
-        }
-    }
+    var id = props.match.params.id;
 
-    componentDidMount(){
-        axios.get("http://localhost:3000/detailProperty?id="+this.state.id).then((res)=>{
-            this.setState({
-                property: res.data.data[0].PropertyDetails,
-                images:res.data.data[0].PropertyImages
-            });
+    useEffect(() => {
+        axios.get("http://localhost:3000/detailProperty?id="+id).then((res)=>{
+                setproperty( res.data.data[0].PropertyDetails);
+                setimages(res.data.data[0].PropertyImages);
+                axios.get('http://localhost:3000/getUser?id='+res.data.data[0].PropertyDetails.userId).then((res)=>{
+                    setName(res.data.data[0].name);
+                    setType(res.data.data[0].iam);
+                    setPic(res.data.data[0].dp);
+                    setEmail(res.data.data[0].email);
+                    setNumber(res.data.data[0].number);
+                });
         });
-    }
+    }, []);
 
-
-    render() {
-        return (
-            <div class='details-container'>
+    return (
+        <div class='details-container'>
                 <div className='detail-carousel-div'>
                     <div id="detail-carousel" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -39,25 +44,25 @@ export class Details extends Component {
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src={"backend/userUploads/"+this.state.images[0]} alt="No Image"/>
+                                <img src={"backend/userUploads/"+images[0]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+this.state.images[1]} alt="No Image"/>
+                                <img src={"backend/userUploads/"+images[1]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+this.state.images[2]} alt="No Image"/>
+                                <img src={"backend/userUploads/"+images[2]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+this.state.images[3]} alt="No Image"/>
+                                <img src={"backend/userUploads/"+images[3]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+this.state.images[4]} alt="No Image"/>
+                                <img src={"backend/userUploads/"+images[4]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+this.state.images[5]} alt="NO Image"/>
+                                <img src={"backend/userUploads/"+images[5]} alt="NO Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+this.state.images[6]} alt="No Image"/>
+                                <img src={"backend/userUploads/"+images[6]} alt="No Image"/>
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#detail-carousel" role="button" data-slide="prev">
@@ -71,9 +76,9 @@ export class Details extends Component {
                     </div>
                 </div>
                 <div class='details-div'>
-                    <h1>{this.state.property.propertyTitle} - <span>{this.state.property.areaSize} sq ft</span></h1>
-                    <span class='location-span'>{this.state.property.location} , {this.state.property.landmark} , {this.state.property.city} , {this.state.property.state} -- {this.state.property.zipcode}</span>
-                    <h2>{this.state.property.price}</h2>
+                    <h1>{property.propertyTitle} - <span>{property.areaSize} sq ft</span></h1>
+                    <span class='location-span'>{property.location} , {property.landmark} , {property.city} , {property.state} -- {property.zipcode}</span>
+                    <h2>{property.price}</h2>
                     <div class='status-div'>
                         <div>
                             <span>Status</span>
@@ -81,69 +86,69 @@ export class Details extends Component {
                         </div>
                         <div>
                             <span>Bedroom</span>
-                            <h3>{this.state.property.bedrooms}</h3>
+                            <h3>{property.bedrooms}</h3>
                         </div>
                         <div>
                             <span>Bathroom</span>
-                            <h3>{this.state.property.bathrooms}</h3>
+                            <h3>{property.bathrooms}</h3>
                         </div>
                     </div>
                     <div class='details-description-div'>
                         <h2>Description</h2>
-                        <p>{this.state.property.description}</p> 
+                        <p>{property.description}</p> 
                     </div>
                     <div class='details-amenities'>
                         <h2>Amenities</h2>
                         <div class='details-amenities-div'>
                             <div>
                                 <img src='images/intercom.png'></img>
-                                {this.state.property.intercom == "true"?<span style={{color: "green"}}>Intercom</span>:<span style={{color: "red"}}><del>Intercom</del></span>}
+                                {property.intercom == "true"?<span style={{color: "green" ,textAlign:"center"}}>Intercom<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Intercom <br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/pwer-backup.png'></img>
-                                {this.state.property.powerBackup == "true"?<span style={{color: "green"}}>Power Backup</span>:<span style={{color: "red"}}><del>Power Backup</del></span>}
+                                {property.powerBackup == "true"?<span style={{color: "green" ,textAlign:"center"}}>Power Backup<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Power Backup<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/lift.png'></img>
-                                {this.state.property.lift == "true"?<span style={{color: "green"}}>Lift</span>:<span style={{color: "red"}}><del>Lift</del></span>}
+                                {property.lift == "true"?<span style={{color: "green" ,textAlign:"center"}}>Lift<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Lift<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/i-pool.png'></img>
-                                {this.state.property.swimmingPool == "true"?<span style={{color: "green"}}>Swimmimg Pool</span>:<span style={{color: "red"}}><del>Swimming Pool</del></span>}
+                                {property.swimmingPool == "true"?<span style={{color: "green" ,textAlign:"center"}}>Swimmimg Pool<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Swimming Pool<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/i-car.png'></img>
-                                {this.state.property.parking == "true"?<span style={{color: "green"}}>Parking</span>:<span style={{color: "red"}}><del>Parking</del></span>}
+                                {property.parking == "true"?<span style={{color: "green" ,textAlign:"center"}}>Parking<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Parking<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/gym.png'></img>
-                                {this.state.property.gym == "true"?<span style={{color: "green"}}>Gym</span>:<span style={{color: "red"}}><del>Gym</del></span>}
+                                {property.gym == "true"?<span style={{color: "green" ,textAlign:"center"}}>Gym<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Gym<br/> Not Available</del></span>}
                             </div>
                         </div>
                         <div class='details-amenities-div'>
                             <div>
                                 <img src='images/sports.png'></img>
-                                {this.state.property.sportsFacility == "true"?<span style={{color: "green"}}>Sports Facility</span>:<span style={{color: "red"}}><del>Sports Facility</del></span>}
+                                {property.sportsFacility == "true"?<span style={{color: "green" ,textAlign:"center"}}>Sports Facility<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Sports Facility<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/track.png'></img>
-                                {this.state.property.jogging == "true"?<span style={{color: "green"}}>Jogging Track</span>:<span style={{color: "red"}}><del>Jogging Track</del></span>}
+                                {property.jogging == "true"?<span style={{color: "green" ,textAlign:"center"}}>Jogging Track<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Jogging Track<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/security.png'></img>
-                                {this.state.property.security == "true"?<span style={{color: "green"}}>24X7 Security</span>:<span style={{color: "red"}}><del>24X7 Security</del></span>}
+                                {property.security == "true"?<span style={{color: "green" ,textAlign:"center"}}>24X7 Security<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>24X7 Security<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/garden.png'></img>
-                                {this.state.property.garden == "true"?<span style={{color: "green"}}>Garden</span>:<span style={{color: "red"}}><del>Garden</del></span>}
+                                {property.garden == "true"?<span style={{color: "green" ,textAlign:"center"}}>Garden<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Garden<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/laundry.png'></img>
-                                {this.state.property.laundry == "true"?<span style={{color: "green"}}>Laundry</span>:<span style={{color: "red"}}><del>Laundry</del></span>}
+                                {property.laundry == "true"?<span style={{color: "green" ,textAlign:"center"}}>Laundry<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Laundry<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/basement.png'></img>
-                                {this.state.property.basement == "true"?<span style={{color: "green"}}>Basement</span>:<span style={{color: "red"}}><del>Basement</del></span>}
+                                {property.basement == "true"?<span style={{color: "green" ,textAlign:"center"}}>Basement<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Basement<br/> Not Available</del></span>}
                             </div>
                         </div>
                     </div>
@@ -152,71 +157,66 @@ export class Details extends Component {
                         <div class='details-furnishings-div'>
                             <div>
                                 <img src='images/gas.png'></img>
-                                {this.state.property.gas == "true"?<span style={{color: "green"}}>Gas Connection</span>:<span style={{color: "red"}}><del>Gas Connection</del></span>}
+                                {property.gas == "true"?<span style={{color: "green" ,textAlign:"center"}}>Gas Connection<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Gas Connection<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/microwave.png'></img>
-                                {this.state.property.microwave == "true"?<span style={{color: "green"}}>Microwave</span>:<span style={{color: "red"}}><del>Microwave</del></span>}
+                                {property.microwave == "true"?<span style={{color: "green" ,textAlign:"center"}}>Microwave<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Microwave<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/sofa.png'></img>
-                                {this.state.property.sofa == "true"?<span style={{color: "green"}}>Sofa</span>:<span style={{color: "red"}}><del>Sofa</del></span>}
+                                {property.sofa == "true"?<span style={{color: "green" ,textAlign:"center"}}>Sofa<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Sofa<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/ac.png'></img>
-                                {this.state.property.ac == "true"?<span style={{color: "green"}}>AC</span>:<span style={{color: "red"}}><del>AC</del></span>}
+                                {property.ac == "true"?<span style={{color: "green" ,textAlign:"center"}}>AC<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>AC<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/wardrobe.png'></img>
-                                {this.state.property.wardrobe == "true"?<span style={{color: "green"}}>Wardrobe</span>:<span style={{color: "red"}}><del>Wardrobe</del></span>}
+                                {property.wardrobe == "true"?<span style={{color: "green" ,textAlign:"center"}}>Wardrobe<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Wardrobe<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/tv.png'></img>
-                                {this.state.property.tv == "true"?<span style={{color: "green"}}>TV</span>:<span style={{color: "red"}}><del>TV</del></span>}
+                                {property.tv == "true"?<span style={{color: "green" ,textAlign:"center"}}>TV<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>TV<br/> Not Available</del></span>}
                             </div>
                         </div>
                         <div class='details-furnishings-div'>
                             <div>
                                 <img src='images/refrigerator.png'></img>
-                                {this.state.property.refrigerator == "true"?<span style={{color: "green"}}>Refrigerator</span>:<span style={{color: "red"}}><del>Refrigerator</del></span>}
+                                {property.refrigerator == "true"?<span style={{color: "green" ,textAlign:"center"}}>Refrigerator<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Refrigerator<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/wifi.png'></img>
-                                {this.state.property.wifi == "true"?<span style={{color: "green"}}>Wifi</span>:<span style={{color: "red"}}><del>Wifi</del></span>}
+                                {property.wifi == "true"?<span style={{color: "green" ,textAlign:"center"}}>Wifi<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Wifi<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/dining-table.png'></img>
-                                {this.state.property.diningTable == "true"?<span style={{color: "green"}}>Dining Table</span>:<span style={{color: "red"}}><del>Dining Table</del></span>}
+                                {property.diningTable == "true"?<span style={{color: "green" ,textAlign:"center"}}>Dining Table<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Dining Table<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/bed.png'></img>
-                                {this.state.property.bed == "true"?<span style={{color: "green"}}>Bed</span>:<span style={{color: "red"}}><del>Bed</del></span>}
+                                {property.bed == "true"?<span style={{color: "green" ,textAlign:"center"}}>Bed<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Bed<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/barbeque.png'></img>
-                                {this.state.property.barbeque == "true"?<span style={{color: "green"}}>Barbeque</span>:<span style={{color: "red"}}><del>Barbeque</del></span>}
+                                {property.barbeque == "true"?<span style={{color: "green" ,textAlign:"center"}}>Barbeque<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Barbeque<br/> Not Available</del></span>}
                             </div>
                             <div>
                                 <img src='images/water-heater.png'></img>
-                                {this.state.property.waterHeater == "true"?<span style={{color: "green"}}>Water Heater</span>:<span style={{color: "red"}}><del>Water Heater</del></span>}
+                                {property.waterHeater == "true"?<span style={{color: "green" ,textAlign:"center"}}>Water Heater<br/>Available</span>:<span style={{color: "red" ,textAlign:"center"}}><del>Water Heater<br/> Not Available</del></span>}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class='contact-div'>
-                    <img src='images/favicon.png'></img>
-                    <h3>Connect with the owner right now</h3>
-                    <form>
-                       <input type='text' placeholder='Enter Name' name='name' id='name'></input>
-                       <input type='emial' placeholder='Enter Email' name='email' id='email' ></input>
-                       <input type='text' placeholder='Mobile Number' name='number' id='number' ></input>
-                       <button>Connect Now</button>
-                    </form>
+                    <img src={'backend/userUploads/'+pic}></img>
+                    <h3>{name}({type})</h3>
+                    <hr/>
+                    <h4 style={{fontWeight:'lighter'}}>Connect with the {type} right now</h4>
+                    <hr/>
+                    <h4>Email : {email}</h4>
+                    <h4>Phone Number : {number}</h4>
                 </div>
             </div>
-        )
-    }
+    )
 }
-
-export default Details
-

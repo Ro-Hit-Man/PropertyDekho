@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import axios from 'axios'
 import './PostProperty.css'
 
 export default function PostProperty() {
 
     var property;
+
+    const userId = useSelector(state => state.UserData);
 
     const [propertyTitle, setpropertyTitle] = useState("");
     const [propertyType, setpropertyType] = useState("");
@@ -138,6 +141,7 @@ export default function PostProperty() {
             formData.append("gas",gas);
             formData.append("refrigerator",refrigerator);
             formData.append("barbeque",barbeque);
+            formData.append("userId",userId);
             for(var p of property){
                 formData.append('property',p);
             }

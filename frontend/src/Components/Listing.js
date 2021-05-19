@@ -68,28 +68,6 @@ function Listing(props) {
 
     return (
         <div class='listing-container'>
-            <div class='filter-div'>
-                <select id='sort-price' name='sort-price'>
-                    <option value=''>Sort By Price</option>
-                    <option value='low-high'>Low to High</option>
-                    <option value='high-low'>High to Low</option>
-                </select>
-                <select id='sort-area' name='sort-area'>
-                    <option value=''>Sort By Area</option>
-                    <option value='low-high'>Low to High</option>
-                    <option value='high-low'>High to Low</option>
-                </select>
-                <select id='bhk' name='bhk'>
-                    <option value=''>BHK</option>
-                    <option value='1bhk'>1 BHK</option>
-                    <option value='2bhk'>2 BHK</option>
-                    <option value='3bhk'>3 BHK</option>
-                    <option value='4bhk'>4 BHK</option>
-                    <option value='5bhk'>5 BHK</option>
-                    <option value='6bhk'>6 BHK</option>
-                    <option value='7bhk'>7 BHK</option>
-                </select>
-            </div>
             <ul>
                 {propertyList}
             </ul>

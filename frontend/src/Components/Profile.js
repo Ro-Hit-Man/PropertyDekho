@@ -8,7 +8,6 @@ export default function Profile(props) {
     const id = useSelector(state => state.UserData);
 
     var profile;
-    var photo = true;
 
     const [property, setProperty] = useState([]);
     const [name, setName] = useState("");
@@ -17,12 +16,15 @@ export default function Profile(props) {
     const [pic, setPic] = useState("");
 
     useEffect(() => {
-        console.log(pic);
+        var id = localStorage.getItem("LOGIN_ID");
         axios.get('http://localhost:3000/getUser?id='+id).then((res)=>{
             setName(res.data.data[0].name);
             setType(res.data.data[0].iam);
             setNumber(res.data.data[0].number);
             setPic(res.data.data[0].dp);
+        });
+        axios.get('http://localhost:3000/listProperty').then((res)=>{
+            setProperty(res.data.data);
         });
     }, [])
 
@@ -41,8 +43,6 @@ export default function Profile(props) {
         formData.append("profile",profile);
         formData.append("id",id);
 
-        console.log(formData);
-
         axios.post("http://localhost:3000/uploadDP", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -55,7 +55,13 @@ export default function Profile(props) {
     }
 
     function remove(){
-
+        var data = {
+            id : id,
+            dp : pic
+        }
+        axios.post("http://localhost:3000/removeDP", data).then((res)=>{
+            alert(res.data.data);
+        });
     }
 
     function update(uid){
@@ -65,7 +71,7 @@ export default function Profile(props) {
                 name:name,
             }
             axios.post("http://localhost:3000/updateName", data).then((res)=>{
-            alert(res.data.data);
+                alert(res.data.data);
             });
         }
         if(uid == "number"){
@@ -84,16 +90,18 @@ export default function Profile(props) {
     }
 
     var listProperty = property.map((p)=>{
-        return <div className="item" key={p._id}>
-                    <img id='proImg' src={"Details/backend/userUploads/"+p.PropertyImages[0]} alt=""/>
-                    <span>{p.PropertyDetails.location}</span>
-                    <h4>{p.PropertyDetails.propertyTitle}</h4>
-                    <div>
-                        <img src='images/home.png'></img>
-                        <span>{p.PropertyDetails.areaSize} sq. ft.</span>
+        if(p.PropertyDetails.userId == id){
+            return <div className="item" key={p._id}>
+                        <img id='proImg' src={"Details/backend/userUploads/"+p.PropertyImages[0]} alt=""/>
+                        <span>{p.PropertyDetails.location}</span>
+                        <h4>{p.PropertyDetails.propertyTitle}</h4>
+                        <div>
+                            <img src='images/home.png'></img>
+                            <span>{p.PropertyDetails.areaSize} sq. ft.</span>
+                        </div>
+                        <button onClick={()=>{showDetails(p._id)}}>VIEW DETAILS</button>
                     </div>
-                <button onClick={()=>{showDetails(p._id)}}>VIEW DETAILS</button>
-                </div>
+        }
     });
 
     return (
@@ -122,12 +130,12 @@ export default function Profile(props) {
                 <h5 id='h5'>You Have {type} Profile</h5>
                 <h6 id='h6'>(You {type == "buyer"?"Cannot":"Can"} Upload Property <br/> With {type} Profile)</h6>
             </div>
-            <div class="uploaded-property">
+            {type == "buyer"?"":<div class="uploaded-property">
                     <h1>Your Uploaded Properties</h1>
                     <div class="uploaded-property-wrapper">
                             {listProperty}
                     </div>
-                </div>
+            </div>}
         </div>
     )
 }
