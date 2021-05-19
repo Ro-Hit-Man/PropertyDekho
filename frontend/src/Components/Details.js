@@ -209,7 +209,7 @@ export default function Details(props) {
                     </div>
                 </div>
                 <div class='contact-div'>
-                    <img src={'backend/userUploads/'+pic}></img>
+                {pic == "" || pic == undefined?<img class='user-pic' src="images/profile.png"></img>:<img class='user-pic' src={"backend/userUploads/"+pic}></img>}
                     <h3>{name}({type})</h3>
                     <hr/>
                     <h4 style={{fontWeight:'lighter'}}>Connect with the {type} right now</h4>

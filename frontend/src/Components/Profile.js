@@ -107,7 +107,7 @@ export default function Profile(props) {
     return (
         <div className="profile-container">
             <div className="profile-div">
-                {pic == "" || pic == undefined?<img class='user-pic' src="images/author-3.jpg"></img>:<img class='user-pic' src={"Details/backend/userUploads/"+pic}></img>}
+                {pic == "" || pic == undefined?<img class='user-pic' src="images/profile.png"></img>:<img class='user-pic' src={"Details/backend/userUploads/"+pic}></img>}
                 <div class='pic-btn'>
                     <form>
                     <input name='profile' type='file' onChange={(e)=>{setValue(e);}}></input>
