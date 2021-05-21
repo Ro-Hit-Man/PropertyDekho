@@ -23,7 +23,7 @@ export default function Home(props) {
 
     var listProperty = property.map((p)=>{
         return <div className="item" key={p._id}>
-                    <img id='proImg' src={"Details/backend/userUploads/"+p.PropertyImages[0]} alt=""/>
+                    <img id='proImg' src={"backend/userUploads/"+p.PropertyImages[0]} alt=""/>
                     <span>{p.PropertyDetails.location}</span>
                     <h4>{p.PropertyDetails.propertyTitle}</h4>
                     <div>

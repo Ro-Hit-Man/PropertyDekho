@@ -2,9 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import './Details.css'
+import {baseUrl} from '../config';
 
 export default function Details(props) {
-    
+
     const [property, setproperty] = useState("");
     const [images, setimages] = useState("");
     const [name, setName] = useState("");
@@ -104,7 +105,7 @@ export default function Details(props) {
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src={"backend/userUploads/"+images[0]} alt="No Image"/>
+                                <img src={baseUrl+"userUploads/"+images[0]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
                                 <img src={"backend/userUploads/"+images[1]} alt="No Image"/>
