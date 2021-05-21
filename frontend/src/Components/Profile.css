@@ -192,3 +192,203 @@
     font-weight: 500;
     margin-left: 20px;
   }
+
+  @media only screen and (max-width: 600px) {
+
+    .profile-container{
+      width: 100%;
+      height: fit-content;
+      display: flex;
+      padding-bottom: 50px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #a4508b;
+      background-image: linear-gradient(90deg, #a4508b 0%, #5f0a87 74%);
+  }
+    
+    .profile-div{
+        width: 80%;
+        height: 350px;
+        display: flex;
+        margin-top: 80px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 30px;
+        background-color: #a4508b; 
+        background-image: linear-gradient(270deg, #a4508b 0%, #5f0a87 74%);
+    }
+    .user-pic{
+      border-radius: 50%;
+      height: 120px;
+      background-color: gray;
+      position: absolute;
+      top: 240px;
+      left: 38%;
+    }
+    .pic-btn{
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .pic-btn div{
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .pic-btn input{
+        width: 75%;
+        height: 30px;
+    }
+    .update-btn{
+      height: 30px;
+      width: 200px;
+      background-color: #5094e7;
+      color: white;
+      outline-style: none;
+      border: none;
+    }
+    .remove-btn{
+      height: 30px;
+      width: 200px;
+      background-color:rgb(235, 57, 95);
+      color: white;
+      outline-style: none;
+      border: none;
+    }
+    .user-name,.user-email,.user-type,.user-number{
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 70%;
+    }
+    .user-name img,.user-email img,.user-number img{
+        height: 30px;
+        cursor: pointer;
+    }
+    .user-name input,.user-email input,.user-type input,.user-number input{
+      height: 30px;
+      width: 70%;
+    }
+    .user-name button,.user-email button,.user-number button{
+      height: 30px;
+      width: 80px;
+      background-color: #5094e7;
+      color: white;
+      outline-style: none;
+      border: none;
+    }
+    .btn{
+      color: white;
+      background-color: rgb(235, 57, 95);
+      height: 50px;
+      width: 150;
+      outline-style: none;
+      border: none;
+      margin-top: 30px;
+    }
+    #buyer{
+        height: 50px;
+        position: absolute;
+        top: 270px;
+        left: 50px;
+    }
+    #h5{
+        color: white;
+        font-size: 10px;
+        position: absolute;
+        top: 320px;
+        left: 20px;
+    }
+    #h6{
+      color: white;
+      position: absolute;
+      top: 340px;
+      font-size: 10px;
+      left: 20px;
+      text-align: center;
+      font-weight: lighter;
+    }
+    .uploaded-property{
+      width: 100%;
+      height: 600px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+    .uploaded-property h1{
+      font-size: 25px;
+      text-align: center;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .uploaded-property-wrapper{
+      width: 80%;
+      height: 480px;
+      margin: 0 auto;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      display: flex;
+    }
+    .uploaded-property-wrapper::-webkit-scrollbar{
+      width: 1em;
+    }
+    .uploaded-property-wrapper::-webkit-scrollbar-thumb{
+      background-color:white;
+      border-radius: 50px;
+    }
+    .uploaded-property-wrapper::-webkit-scrollbar-track{
+      background-color: grey;
+      border-radius: 50px;
+    }
+    .item{
+      margin-right: 15px;
+      border: 1px solid black;
+      margin-bottom: 10px;
+    }
+    #proImg{
+      width: 390px;
+      height: 250px;
+    }
+    .item img{
+      width: 390px;
+    }
+    .item h4{
+      font-weight: bold;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+    .item span{
+      margin-left: 12px;
+      margin-top: 10px;
+    }
+    .item button{
+      margin-left: 10px;
+      color: white;
+      background-color: rgb(235, 57, 95);
+      padding: 7px 15px 7px 15px;
+      font-weight: 700;
+      outline-style: none;
+      border: 1px solid white;
+      cursor: pointer;
+      margin-top: 25px;
+    }
+    .item div{
+      height: fit-content;
+      width: fit-content;
+      margin-top: 20px;
+      margin-left: 12px;
+    }
+    .item div img{ 
+      width: 27px;
+    }
+    .item div span{
+      font-weight: 500;
+      margin-left: 20px;
+    }
+  }

@@ -92,7 +92,8 @@ export default function Header(props) {
                                     <option value=''>Select City</option>
                                     <option value='Delhi'>Delhi</option>
                                     <option value='Mumbai'>Mumbai</option>
-                                    <option value='Bangalore'>Bangalore</option>    
+                                    <option value='Bangalore'>Bangalore</option>
+                                    <option value='Jaipur'>Jaipur</option>    
                                 </select>
                                 <NavLink to='/Listing'><button>SEARCH</button></NavLink>
                             </div>

@@ -358,7 +358,7 @@ export default function PostProperty() {
                         </div>
 
                         <h1>Property Images</h1>
-                        <h5>You can Choose Only 7 Images At Max</h5>
+                        <h5 className='alert'>You can Choose Only 7 Images At Max</h5>
                         <input id='file' name='property' onChange={(e)=>{setValue(e);}}  type='file' multiple></input>
                 
                         <button onClick={()=>{sendData();}}>SUBMIT PROPERTY</button>

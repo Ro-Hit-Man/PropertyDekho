@@ -32,6 +32,17 @@ export default function Login(props) {
         });
     }
 
+    function forgotPassword(){
+        if(email == "" || email == undefined){
+            alert("First Enter your email then request for password recovery");
+        }
+        else{
+            axios.get('http://localhost:3000/forgotPassword?email='+email).then((res)=>{
+                alert(res.data.data);
+            });
+        }
+    }
+
     return (
         <div class='login-container'>
                 <div class='login-wrapper'>
@@ -41,17 +52,7 @@ export default function Login(props) {
                         <input id='password' type='password' placeholder='Enter Password' name='password' value={password} onChange={(e)=>{setPassword(e.target.value)}}></input>
                         <button type='button' onClick={()=>{login();}}>LOGIN</button>
                     </form>
-                    <hr/><span>or login using</span>
-                    <div class='login-option'>
-                        <div class='facebook'>
-                            <img src='/images/facebook.png'></img>
-                            <span>Facebook</span>
-                        </div>
-                        <div class='google'>
-                            <img src='images/google+.png'></img>
-                            <span>Google+</span>
-                        </div>
-                    </div>
+                    <span id='forgot' onClick={()=>{forgotPassword();}}>forgot password?</span>
                     <NavLink exact to='/Register'><p>Don't have an account?<span>Sign Up</span></p></NavLink>
                 </div>
             </div>

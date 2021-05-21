@@ -1,5 +1,5 @@
 .login-container{
-    height: 850px;
+    height: 750px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -8,7 +8,7 @@
   }
   .login-wrapper{
       width: 30%;
-      height: 650px;
+      height: 550px;
       box-shadow: 0px 4px 6px 0px grey;
       background-color: #f8ceec;
      background-image: linear-gradient(315deg, #f8ceec 0%, #a88beb 74%);
@@ -31,42 +31,8 @@
   .login-wrapper span{
     margin-left: 40%;
   }
-  .login-option{
-    display: flex;
-    width: 100%;
-    margin-top: 30px;
-  }
-  .facebook{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 49%;
-    border-right: 1px solid black;
-  }
-  .facebook span{
-    margin: 5px;
-    cursor: pointer;
-  }
-  .facebook img{
-    height: 22px;
-    cursor: pointer;
-  }
-  .google{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-  }
-  .google span{
-    margin: 5px;
-    cursor: pointer;
-  }
-  .google img{
-    height: 22px;
-    cursor: pointer;
-  }
   .login-wrapper p{
-    margin-top: 150px;
+    margin-top: 100px;
     font-weight: 400;
     margin-left: 27%;
   }
@@ -76,4 +42,61 @@
     cursor: pointer;
     font-weight: 700;
   }
+  #forgot{
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+  }
   
+  @media only screen and (max-width: 600px) {
+    .login-container{
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: azure;
+    }
+    .login-wrapper{
+        width: 80%;
+        height: 480px;
+        box-shadow: 0px 4px 6px 0px grey;
+        background-color: #f8ceec;
+       background-image: linear-gradient(315deg, #f8ceec 0%, #a88beb 74%);
+    
+    }
+    .login-wrapper h1{
+      margin-top: 20px;
+      font-weight: 600;
+      font-size: 25px;
+      margin-left: 25px;
+    }
+    .login-wrapper form input{
+      width: 85%;
+    }
+    .login-wrapper form button{
+      width: 90%;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .login-wrapper span{
+      margin-left: 40%;
+    }
+    .login-wrapper p{
+      margin-top: 100px;
+      font-weight: 400;
+      margin-left: 27%;
+    }
+    .login-wrapper p span{
+      color: rgb(235, 57, 95);
+      margin-left: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    #forgot{
+      float: right;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+  }

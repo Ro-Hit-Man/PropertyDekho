@@ -6,10 +6,10 @@ var ObjectID = require('mongodb').ObjectID;
 var path = require('path');
 var upload = require('./multerConfig');
 var fs = require('fs');
+var nodemailer = require('nodemailer');
 
 var app = express();
 app.use(cors());
-
 app.use(express.static(path.join(__dirname,'userUploads')));
 
 var client = new MongoClient('mongodb+srv://myhome:myhome@cluster0.zj3m5.mongodb.net/myhome?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true});
@@ -46,6 +46,18 @@ app.post('/postProperty', bodyParser.json(),(req,res)=>{
     });
 });
 
+app.get('/searchProperty',(req,res)=>{
+    var propertyCollection = connection.db('myhome').collection('property');
+    propertyCollection.find({city:"",budget:""}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data:docs});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
+
 app.get('/listProperty',(req,res)=>{
     var propertyCollection = connection.db('myhome').collection('property');
     propertyCollection.find({}).toArray((err,docs)=>{
@@ -70,16 +82,32 @@ app.get('/detailProperty',(req,res)=>{
     });
 });
 
-app.get('/searchProperty',(req,res)=>{
-    var propertyCollection = connection.db('myhome').collection('property');
-    propertyCollection.find({city:"",budget:""}).toArray((err,docs)=>{
+app.post('/connect',bodyParser.json(),(req,res)=>{
+    sendMail("myhome052021@gmail.com","trvkjgaggokicrjf", req.body.email, "Contact Email",
+        "<h1>Hi! "+req.body.name+"</h1><br/>"+
+        "<h1>"+req.body.username+" is interested in your property titled as :</h1><br/>"+
+        "<h2>"+req.body.propertyname+" , "+req.body.location+"</h2><br/>"+
+        "<h2>You can contact him on :</h2><h3>Email : "+req.body.useremail+"</h3><h3>Number :"+req.body.usernumber+"</h3><br/><br/><br/><br/>"+
+        "<h4>Regards MyHome</h4>"     
+    );
+    res.send({status:"ok",data:"The broker/owner will contact you shortly!"});
+});
+
+app.get('/checkUser', (req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.find({email: req.query.email}).toArray((err,docs)=>{
         if(!err){
             res.send({status:"ok",data:docs});
         }
         else{
             res.send({status:"failed",data:err});
         }
-    });
+    })
+});
+
+app.post('/verifyUser',bodyParser.json(),(req,res)=>{
+    sendMail("myhome052021@gmail.com","trvkjgaggokicrjf", req.body.email, "Verification Email","<h1>Hi! Your verification code is = "+req.body.code+"</h1>");
+    res.send({status:"ok",data:"An Verification Code is send to your Email"});
 });
 
 app.post('/registerUser', bodyParser.json(), (req,res)=>{
@@ -106,9 +134,9 @@ app.get('/getUser', (req,res)=>{
     });
 });
 
-app.get('/checkUser', (req,res)=>{
+app.get('/loginUser', (req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
-    userCollection.find({email: req.query.email}).toArray((err,docs)=>{
+    userCollection.find({email: req.query.email , password: req.query.password}).toArray((err,docs)=>{
         if(!err){
             res.send({status:"ok",data:docs});
         }
@@ -118,11 +146,12 @@ app.get('/checkUser', (req,res)=>{
     })
 });
 
-app.get('/loginUser', (req,res)=>{
+app.get('/forgotPassword',(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
-    userCollection.find({email: req.query.email , password: req.query.password}).toArray((err,docs)=>{
+    userCollection.find({email: req.query.email}).toArray((err,data)=>{
         if(!err){
-            res.send({status:"ok",data:docs});
+            sendMail("myhome052021@gmail.com","trvkjgaggokicrjf", req.query.email, "Forgot Password","<h1>Hi!"+data[0].name+"<br/> Your password is = "+data[0].password+"</h1>");
+            res.send({status:"ok",data:"An Email is send to you..."});
         }
         else{
             res.send({status:"failed",data:err});
@@ -188,6 +217,34 @@ app.post('/updateNumber' , bodyParser.json(),(req,res)=>{
         }
     }); 
 });
+
+function sendMail(from, appPassword, to, subject,  htmlmsg){
+    let transporter=nodemailer.createTransport({
+            host:"smtp.gmail.com",
+            port:587,
+            secure:false,
+            auth:{
+             user:from,
+             pass:appPassword
+            }
+        });
+
+    let mailOptions={
+       from:from ,
+       to:to,
+       subject:subject,
+       html:htmlmsg
+    };
+
+    transporter.sendMail(mailOptions ,function(error,info){
+        if(error){
+            console.log(error);
+        }
+        else{
+            console.log('Email sent:'+info.response);
+        }
+    });
+}
 
 app.listen(3000,()=>{
     console.log("Server is listing at port 3000");

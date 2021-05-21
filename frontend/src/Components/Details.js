@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import './Details.css'
 
 export default function Details(props) {
@@ -10,12 +11,21 @@ export default function Details(props) {
     const [type, setType] = useState("");
     const [pic, setPic] = useState("");
     const [email, setEmail] = useState("");
-    const [number, setNumber] = useState("");
-    // const [userId, setuserId] = useState("");
+    const [useremail, setuseremail] = useState("");
+    const [usernumber, setusernumber] = useState("");
+    const [username, setusername] = useState("");
+    var emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/;
+
+    var uid = localStorage.getItem("LOGIN_ID");
+
+    const isLogin = useSelector(state => state.isLogin);
 
     var id = props.match.params.id;
 
     useEffect(() => {
+        console.log(
+            
+        )
         axios.get("http://localhost:3000/detailProperty?id="+id).then((res)=>{
                 setproperty( res.data.data[0].PropertyDetails);
                 setimages(res.data.data[0].PropertyImages);
@@ -24,10 +34,60 @@ export default function Details(props) {
                     setType(res.data.data[0].iam);
                     setPic(res.data.data[0].dp);
                     setEmail(res.data.data[0].email);
-                    setNumber(res.data.data[0].number);
                 });
         });
     }, []);
+
+    function connect(){
+
+        var data = {
+            name : name,
+            email: email,
+            username: username,
+            useremail: useremail,
+            usernumber: usernumber,
+            propertyname: property.propertyTitle,
+            location: property.location+","+property.city+","+property.state
+        }
+
+        if(uid == "no"){
+            if(username == "" || username == null || username.length == 0){
+                alert('Name cannot be Empty');
+            }
+            else if(!emailRegex.test(useremail) || useremail == ""){
+                alert('Enter valid email address');
+            }
+            else if(usernumber.length<10 || usernumber.length>10 || usernumber == "" || usernumber == null){
+                alert('Enter valid mobile number');
+            }
+            else{
+                axios.post('http://localhost:3000/connect', data).then((res)=>{
+                    alert(res.data.data);
+                });
+            }
+        }
+        else{
+            axios.get('http://localhost:3000/getUser?id='+uid).then((res)=>{
+                setusername(res.data.data[0].name);
+                setuseremail(res.data.data[0].email);
+                setusernumber(res.data.data[0].number);
+            });
+
+            var data = {
+                name : name,
+                email: email,
+                username: username,
+                useremail: useremail,
+                usernumber: usernumber,
+                propertyname: property.propertyTitle,
+                location: property.location+","+property.city+","+property.state
+            }
+            
+            axios.post('http://localhost:3000/connect', data).then((res)=>{
+                    alert(res.data.data);
+            });
+        }
+    }
 
     return (
         <div class='details-container'>
@@ -209,13 +269,21 @@ export default function Details(props) {
                     </div>
                 </div>
                 <div class='contact-div'>
-                {pic == "" || pic == undefined?<img class='user-pic' src="images/profile.png"></img>:<img class='user-pic' src={"backend/userUploads/"+pic}></img>}
+                {pic == "" || pic == undefined?<img src="images/profile.png"></img>:<img src={"backend/userUploads/"+pic}></img>}
                     <h3>{name}({type})</h3>
                     <hr/>
                     <h4 style={{fontWeight:'lighter'}}>Connect with the {type} right now</h4>
                     <hr/>
-                    <h4>Email : {email}</h4>
-                    <h4>Phone Number : {number}</h4>
+                    {isLogin?
+                        <button id='connect' onClick={()=>{connect();}}>CONNECT</button>
+                        :  
+                        <form>
+                            <input type='text' placeholder='Enter Your Name' value={username} onChange={(e)=>{setusername(e.target.value);}}></input>
+                            <input type='email' placeholder='Enter Your Email' value={useremail} onChange={(e)=>{setuseremail(e.target.value);}}></input>
+                            <input type='text' placeholder="Enter Your Number" value={usernumber} onChange={(e)=>{setusernumber(e.target.value);}}></input>
+                            <button onClick={()=>{connect();}}>CONNECT</button>
+                        </form>
+                    }
                 </div>
             </div>
     )

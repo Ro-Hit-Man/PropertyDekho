@@ -35,38 +35,7 @@ export default function Home(props) {
     });
 
     return (
-        <div>
-                <div class='services-div'>
-                    <h1>Introducing Property Services</h1>
-                    <div class='services-wrapper'>
-                        <div class='services-item'>
-                            <img src='images/services-bg.png'></img>
-                            <img class='service-img' src='images/i-expert.png'></img>
-                            <h3>Home Loan</h3>
-                        </div>
-                        <div class='services-item'>
-                            <img src='images/services-bg.png'></img>
-                            <img class='service-img' src='images/i-trust.png'></img>
-                            <h3>Home Cleaning</h3>
-                        </div>
-                        <div class='services-item'>
-                            <img src='images/services-bg.png'></img>
-                            <img class='service-img' src='images/i-choice.png'></img>
-                            <h3>Pest Control</h3>
-                        </div>
-                        <div class='services-item'>
-                            <img src='images/services-bg.png'></img>
-                            <img class='service-img' src='images/i-prefer.png'></img>
-                            <h3>Sanitizing</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="featured-property">
-                    <h1>Featured Properties</h1>
-                    <div class="featured-property-wrapper">
-                            {listProperty}
-                    </div>
-                </div>
+        <div className='home-container'>
                 <div class='choice-div'>
                     <h1>What Makes Us The Preferred Choice</h1>
                     <div class='choice-wrapper'>
@@ -92,6 +61,13 @@ export default function Home(props) {
                         </div>
                     </div>
                 </div>
+                <div class="featured-property">
+                    <h1>Newly Uploaded Properties</h1>
+                    <div class="featured-property-wrapper">
+                            {listProperty}
+                    </div>
+                </div>
+                
                 <div class='post-div'>
                     <img class='cloud-img' src='images/bgr-cloud.png'></img>
                     <img class='advertise-img' src='images/advertice-sale.png'></img>
@@ -103,7 +79,7 @@ export default function Home(props) {
                         {isBuyer?"":<NavLink exact to={islogin?"/PostProperty":"/Login"}><button>Post Property</button></NavLink>}
                     </div>
                 </div>
-                <div class='testimonial-section'>
+                {/* <div class='testimonial-section'>
                     <img src='images/bgl-cloud.png'></img>
                     <div class='img'>
                         <img src='images/testimonial.png'></img>
@@ -156,6 +132,31 @@ export default function Home(props) {
                                     </div>
                                 </div>
                             </div> 
+                        </div>
+                    </div>
+                </div> */}
+                <div class='services-div'>
+                    <h1>Property Services Coming-soon</h1>
+                    <div class='services-wrapper'>
+                        <div class='services-item'>
+                            <img src='images/services-bg.png'></img>
+                            <img class='service-img' src='images/i-expert.png'></img>
+                            <h3>Home Loan</h3>
+                        </div>
+                        <div class='services-item'>
+                            <img src='images/services-bg.png'></img>
+                            <img class='service-img' src='images/i-trust.png'></img>
+                            <h3>Home Cleaning</h3>
+                        </div>
+                        <div class='services-item'>
+                            <img src='images/services-bg.png'></img>
+                            <img class='service-img' src='images/i-choice.png'></img>
+                            <h3>Pest Control</h3>
+                        </div>
+                        <div class='services-item'>
+                            <img src='images/services-bg.png'></img>
+                            <img class='service-img' src='images/i-prefer.png'></img>
+                            <h3>Sanitizing</h3>
                         </div>
                     </div>
                 </div>
