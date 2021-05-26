@@ -7,15 +7,32 @@
     height: 310px;
     float: right;
   }
-  .Header h1{
+  #logo-btn{
+    background: transparent;
+    border: none;
+    outline-style: none;
+    cursor: pointer;
+    margin-left: 50px;
+    font-size: 25px;
+    margin-bottom: 10px;
+    font-weight: 900;
+    color: blueviolet;
+  }
+  #logo-btn span{
+    font-weight: 900;
+    font-family: fantasy;
+    font-size: 30px;
+    color: indigo;
+  }
+  .Header h2{
     color: #303364;
     margin-left: 50px;
   }
   .nav{
     width: 40%;
-    height: 50px;
+    height: 40px;
     background-color: blueviolet;
-    margin-top: 50px;
+    margin-top: 20px;
     margin-left: 50px;
   }
   .nav ul{
@@ -26,7 +43,7 @@
   .nav ul li{
     color: white;
     width: 20%;
-    line-height: 50px;
+    line-height: 40px;
     text-align: center;
   }
   .nav ul li:hover{
@@ -148,35 +165,33 @@
     .Header img{
       height: 210px;
     }
-    .Header h1{
+    #logo-btn{
+      background: transparent;
+      border: none;
+      outline-style: none;
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 900;
+      color: blueviolet;
+      position: absolute;
+      top: 20px;
+      left: -25px;
+    }
+    #logo-btn span{
+      font-weight: 900;
+      font-family: fantasy;
+      font-size: 15px;
+      color: indigo;
+    }
+    .Header h2{
       position: absolute;
       color: #303364;
-      font-size: 16px;
+      font-size: 12px;
       top: 60px;
       left: -25px;
     }
     .nav{
-      width: 40%;
-      height: 30px;
-      background-color: blueviolet;
-      position: absolute;
-      /* margin-top: 50px;
-      margin-left: 50px; */
       display: none;
-    }
-    .nav ul{
-      list-style: none;
-      width: 100%;
-      display: flex;
-    }
-    .nav ul li{
-      color: white;
-      width: 20%;
-      line-height: 30px;
-      text-align: center;
-    }
-    .nav ul li:hover{
-      background-color:#303364;
     }
     .search-bar{
       position: absolute;
@@ -192,18 +207,19 @@
       position: relative;
     }
     .search-wrapper select{
-      width: 250px;
-      height: 35px;
+      width: 200px;
+      height: 25px;
+      font-size: 12px;
       padding-left: 20px;
     }
     .search-wrapper img{
       position: absolute;
-      height: 16px;
-      top: 226px;
+      height: 10px;
+      top: 210px;
     }
     #location-img{
       left: 8px;
-      top: 20px;
+      top: 17px;
     }
     #location{
       border-radius: 5px 0px 0px 5px;
@@ -211,17 +227,18 @@
     }
     .search-wrapper button{
       margin-top: 15px;
-      margin-left: -83px;
-      height: 25px;
-      width: 80px;
+      margin-left: -63px;
+      height: 15px;
+      width: 60px;
+      font-size: 10px;
       border-radius: 5px;
       cursor: pointer;
     }
     .login-post-btn{
       position: absolute;
-      left: -90px;
+      left: -130px;
       display: flex;
-      width: 40%;
+      width: 50%;
       justify-content: space-between;
     }
     .login-post-btn div{
@@ -233,11 +250,11 @@
     .login-post-btn div button{
       color: white;
       height: 30px;
-      width: 120px;
+      width: 100px;
       font-size: 10px;
       background-color: rgb(235, 57, 95);
-      padding: 7px 15px 7px 15px;
-      font-weight: 700;
+      padding: 2px 5px 2px 5px;
+      font-weight: 500;
       outline-style: none;
       border: 1px solid white;
       cursor: pointer;
@@ -253,7 +270,7 @@
     .menu-div{
       position:absolute;
       top: 40px;
-      left: 51%;
+      left: 61%;
       height: fit-content;
       width: 100px;
       background-color: black;

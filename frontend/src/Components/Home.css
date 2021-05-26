@@ -105,7 +105,7 @@
     border: 1px solid black;
     margin-bottom: 10px;
   }
-  #proImg{
+  #img{
     width: 390px;
     height: 250px;
   }
@@ -324,78 +324,10 @@
     
     .home-container{
       margin-top: 50px;
-   }
-   .testimonial-section{
-       margin-top: 100px;
-       position: relative;
-     }
-     .header{
-       position: absolute;
-       top: 0;
-       left: 35%;
-     }
-     .header h2{
-       text-align: center;
-       font-size: 45px;
-       color: #303364;
-     }
-     .img{
-       position: absolute;
-       top: 50px;
-       left: 150px;
-     }
-     .carousel-div{
-       width: 35%;
-       position: absolute;
-       top: 180px;
-       left: 60%;
-     }
-     .quote{
-       font-size: 120px;
-       position: absolute;
-       top: -50px;
-       left: -45px;
-     }
-   
-     .quote-block p{
-       font-size: 25px;
-       color: gray;
-     }
-     .user-box{
-       display: flex;
-       width: 50%;
-       margin-top: 40px;
-     }
-     .client-pic{
-       border-radius: 50%;
-       height: 100px;
-     }
-     .user-detail{
-       display: flex;
-       flex-direction: column;
-       width: 50%;
-       margin-left: 40px;
-       margin-top: 10px;
-     }
-     .user-detail span:nth-child(1){
-         color: #757cf3;
-         font-size: 30px;
-     }
-     #carousel{
-       width: 100%;
-       margin: 0 auto;
-       height: 450px;
-     }
-     .carousel-indicators li{
-       background-color: #a88beb;
-     }
-     .carousel-indicators .active{
-       background-color: #722ae6;
-     }
-     
+   }     
      .featured-property{
        width: 100%;
-       height: 600px;
+       height: 420px;
        margin-top: 50px;
        margin-bottom: 50px;
      }
@@ -407,14 +339,14 @@
      }
      .featured-property-wrapper{
        width: 90%;
-       height: 450px;
+       height: 350px;
        margin: 0 auto;
        overflow-y: hidden;
        overflow-x: scroll;
        display: flex;
      }
      .featured-property-wrapper::-webkit-scrollbar{
-       width: 1em;
+       width: 10px;
      }
      .featured-property-wrapper::-webkit-scrollbar-thumb{
        background-color:#6319da;
@@ -429,16 +361,14 @@
        border: 1px solid black;
        margin-bottom: 10px;
      }
-     #proImg{
-       width: 290px;
-       height: 200px;
-     }
-     .item img{
-       width: 290px;
+     #img{
+       height: 50%;
+
      }
      .item h4{
        font-weight: bold;
        margin-left: 10px;
+       font-size: 20px;
        margin-top: 5px;
      }
      .item span{
@@ -448,8 +378,8 @@
      .item button{
        margin-left: 10px;
        color: white;
-       height: 35px;
-       width: 120px;
+       height: 25px;
+       width: 100px;
        font-size: 10px;
        background-color: rgb(235, 57, 95);
        padding: 3px 5px 3px 5px;
@@ -457,7 +387,6 @@
        outline-style: none;
        border: 1px solid white;
        cursor: pointer;
-       margin-top: 5px;
      }
      .item div{
        height: fit-content;
@@ -475,27 +404,24 @@
      .post-div{
        position: relative;
        width: 100%;
-       height: 350px;
+       height: 300px;
        margin-top: 50px;
        margin-bottom: 50px;
      }
      .cloud-img{
-       height: 350px;
+       height: 300px;
        float: right;
      }
      .advertise-img{
-       height: 200px;
-       position: absolute;
-       top: 50px;
-       left: 50%;
+        display: none; 
      }
      .dots-img,.ring-img{
        position:absolute;
        top: 0;
-       height: 350px;
+       height: 300px;
      }
      .post-div div{
-       width: 30%;
+       width: 80%;
        height: fit-content;
        position: absolute;
        top: 10px;
@@ -508,7 +434,7 @@
      }
      .post-div div p{
        font-size: 15px;
-       margin-top: 5px;
+       margin-top: 15px;
      }
      .post-div div button{
        margin-left: 10px;
@@ -583,12 +509,16 @@
        margin-bottom: 50px;
        background-color: #5094e7;
        display: flex;
+       position: relative;
      }
      .app-bg-img{
+       position: absolute;
         height: 150px;
+        width: 100%;
      }
      .download-content{
-       width: 50%;
+       width: 100%;
+       margin-top: 10px;
        height: 150px;
      }
      .download-content h1{

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios'
+import {baseUrl} from '../config';
 import './PostProperty.css'
 
 export default function PostProperty() {
@@ -146,7 +147,7 @@ export default function PostProperty() {
                 formData.append('property',p);
             }
 
-            axios.post("http://localhost:3000/postProperty", formData, {
+            axios.post(baseUrl+"postProperty", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import {baseUrl} from '../config';
 import axios from 'axios';
 import './Login.css'
 
@@ -12,7 +13,7 @@ export default function Login(props) {
     const dispatch = useDispatch();
 
     function login(){
-        axios.get('http://localhost:3000/loginUser?email='+email+'&password='+password).then((res)=>{
+        axios.post(baseUrl+'loginUser?email='+email+'&password='+password).then((res)=>{
             if(res.data.data[0] == undefined){
                 alert("Please Enter Valid Email or Password");
             }
@@ -37,7 +38,7 @@ export default function Login(props) {
             alert("First Enter your email then request for password recovery");
         }
         else{
-            axios.get('http://localhost:3000/forgotPassword?email='+email).then((res)=>{
+            axios.post(baseUrl+'forgotPassword?email='+email).then((res)=>{
                 alert(res.data.data);
             });
         }

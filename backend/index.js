@@ -7,12 +7,14 @@ var path = require('path');
 var upload = require('./multerConfig');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
+var keys = require('./keys');
 
 var app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname,'userUploads')));
+app.use(express.static(path.join(__dirname,'build')));
 
-var client = new MongoClient('mongodb+srv://myhome:myhome@cluster0.zj3m5.mongodb.net/myhome?retryWrites=true&w=majority',{useNewUrlParser:true,useUnifiedTopology:true});
+var client = new MongoClient(keys.mongoDB.dbURI,{useNewUrlParser:true,useUnifiedTopology:true});
 var connection;
 client.connect((err, db)=>{
     if(!err){
@@ -23,6 +25,32 @@ client.connect((err, db)=>{
         console.log(err);
     }
 });
+
+app.get('/',(req,res)=>{
+    res.sendFile('index.html');
+});
+app.get('/Login',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/Signup',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/Profile',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/PostProperty',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/Listing',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/Details',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/Details/id',(req,res)=>{
+    res.redirect('/');
+});
+
 
 app.post('/postProperty', bodyParser.json(),(req,res)=>{
     upload(req,res,(err)=>{
@@ -46,7 +74,7 @@ app.post('/postProperty', bodyParser.json(),(req,res)=>{
     });
 });
 
-app.get('/listProperty',(req,res)=>{
+app.post('/listProperty', bodyParser.json(),(req,res)=>{
     var propertyCollection = connection.db('myhome').collection('property');
     propertyCollection.find({}).toArray((err,docs)=>{
         if(!err){
@@ -58,7 +86,7 @@ app.get('/listProperty',(req,res)=>{
     });
 });
 
-app.get('/detailProperty',(req,res)=>{
+app.post('/detailProperty', bodyParser.json(),(req,res)=>{
     var propertyCollection = connection.db('myhome').collection('property');
     propertyCollection.find({_id:ObjectID(req.query.id)}).toArray((err,docs)=>{
         if(!err){
@@ -71,7 +99,7 @@ app.get('/detailProperty',(req,res)=>{
 });
 
 app.post('/connect',bodyParser.json(),(req,res)=>{
-    sendMail("myhome052021@gmail.com","trvkjgaggokicrjf", req.body.email, "Contact Email",
+    sendMail(keys.Mail.email,keys.Mail.key, req.body.email, "Contact Email",
         "<h1>Hi! "+req.body.name+"</h1><br/>"+
         "<h1>"+req.body.username+" is interested in your property titled as :</h1><br/>"+
         "<h2>"+req.body.propertyname+" , "+req.body.location+"</h2><br/>"+
@@ -81,7 +109,7 @@ app.post('/connect',bodyParser.json(),(req,res)=>{
     res.send({status:"ok",data:"The broker/owner will contact you shortly!"});
 });
 
-app.get('/checkUser', (req,res)=>{
+app.post('/checkUser',  bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
     userCollection.find({email: req.query.email}).toArray((err,docs)=>{
         if(!err){
@@ -94,7 +122,7 @@ app.get('/checkUser', (req,res)=>{
 });
 
 app.post('/verifyUser',bodyParser.json(),(req,res)=>{
-    sendMail("myhome052021@gmail.com","trvkjgaggokicrjf", req.body.email, "Verification Email","<h1>Hi! Your verification code is = "+req.body.code+"</h1>");
+    sendMail(keys.Mail.email,keys.Mail.key, req.body.email, "Verification Email","<h1>Hi! Your verification code is = "+req.body.code+"</h1>");
     res.send({status:"ok",data:"An Verification Code is send to your Email"});
 });
 
@@ -110,7 +138,7 @@ app.post('/registerUser', bodyParser.json(), (req,res)=>{
     });
 });
 
-app.get('/getUser', (req,res)=>{
+app.post('/getUser',  bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
     userCollection.find({_id:ObjectID(req.query.id)}).toArray((err,docs)=>{
         if(!err){
@@ -122,7 +150,7 @@ app.get('/getUser', (req,res)=>{
     });
 });
 
-app.get('/loginUser', (req,res)=>{
+app.post('/loginUser', bodyParser.json(), (req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
     userCollection.find({email: req.query.email , password: req.query.password}).toArray((err,docs)=>{
         if(!err){
@@ -134,11 +162,11 @@ app.get('/loginUser', (req,res)=>{
     })
 });
 
-app.get('/forgotPassword',(req,res)=>{
+app.post('/forgotPassword', bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
     userCollection.find({email: req.query.email}).toArray((err,data)=>{
         if(!err){
-            sendMail("myhome052021@gmail.com","trvkjgaggokicrjf", req.query.email, "Forgot Password","<h1>Hi!"+data[0].name+"<br/> Your password is = "+data[0].password+"</h1>");
+            sendMail(keys.Mail.email,keys.Mail.key, req.query.email, "Forgot Password","<h1>Hi!"+data[0].name+"<br/> Your password is = "+data[0].password+"</h1>");
             res.send({status:"ok",data:"An Email is send to you..."});
         }
         else{
@@ -173,7 +201,7 @@ app.post('/removeDP',bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
     userCollection.update({_id:ObjectID(req.body.id)},{$set:{dp:""}},(err,result)=>{
         if(!err){
-            fs.unlinkSync('userUploads/'+req.body.dp);
+            fs.unlinkSync(req.body.dp);
             res.send({status:"ok",data:"DP Removed Succesfully"});
         }
         else{
@@ -234,6 +262,6 @@ function sendMail(from, appPassword, to, subject,  htmlmsg){
     });
 }
 
-app.listen(3000,()=>{
-    console.log("Server is listing at port 3000");
+app.listen(80,()=>{
+    console.log("Server is listing at port 80");
 });

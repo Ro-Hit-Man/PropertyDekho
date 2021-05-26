@@ -27,10 +27,10 @@ export default function Details(props) {
         console.log(
             
         )
-        axios.get("http://localhost:3000/detailProperty?id="+id).then((res)=>{
+        axios.post(baseUrl+"detailProperty?id="+id).then((res)=>{
                 setproperty( res.data.data[0].PropertyDetails);
                 setimages(res.data.data[0].PropertyImages);
-                axios.get('http://localhost:3000/getUser?id='+res.data.data[0].PropertyDetails.userId).then((res)=>{
+                axios.post(baseUrl+'getUser?id='+res.data.data[0].PropertyDetails.userId).then((res)=>{
                     setName(res.data.data[0].name);
                     setType(res.data.data[0].iam);
                     setPic(res.data.data[0].dp);
@@ -62,13 +62,13 @@ export default function Details(props) {
                 alert('Enter valid mobile number');
             }
             else{
-                axios.post('http://localhost:3000/connect', data).then((res)=>{
+                axios.post(baseUrl+'connect', data).then((res)=>{
                     alert(res.data.data);
                 });
             }
         }
         else{
-            axios.get('http://localhost:3000/getUser?id='+uid).then((res)=>{
+            axios.post(baseUrl+'getUser?id='+uid).then((res)=>{
                 setusername(res.data.data[0].name);
                 setuseremail(res.data.data[0].email);
                 setusernumber(res.data.data[0].number);
@@ -84,7 +84,7 @@ export default function Details(props) {
                 location: property.location+","+property.city+","+property.state
             }
             
-            axios.post('http://localhost:3000/connect', data).then((res)=>{
+            axios.post(baseUrl+'connect', data).then((res)=>{
                     alert(res.data.data);
             });
         }
@@ -105,25 +105,25 @@ export default function Details(props) {
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src={baseUrl+"userUploads/"+images[0]} alt="No Image"/>
+                                <img src={baseUrl+images[0]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+images[1]} alt="No Image"/>
+                                <img src={baseUrl+images[1]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+images[2]} alt="No Image"/>
+                                <img src={baseUrl+images[2]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+images[3]} alt="No Image"/>
+                                <img src={baseUrl+images[3]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+images[4]} alt="No Image"/>
+                                <img src={baseUrl+images[4]} alt="No Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+images[5]} alt="NO Image"/>
+                                <img src={baseUrl+images[5]} alt="NO Image"/>
                             </div>
                             <div class="carousel-item">
-                                <img src={"backend/userUploads/"+images[6]} alt="No Image"/>
+                                <img src={baseUrl+images[6]} alt="No Image"/>
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#detail-carousel" role="button" data-slide="prev">
@@ -270,7 +270,7 @@ export default function Details(props) {
                     </div>
                 </div>
                 <div class='contact-div'>
-                {pic == "" || pic == undefined?<img src="images/profile.png"></img>:<img src={"backend/userUploads/"+pic}></img>}
+                {pic == "" || pic == undefined?<img src="images/profile.png"></img>:<img src={baseUrl+pic}></img>}
                     <h3>{name}({type})</h3>
                     <hr/>
                     <h4 style={{fontWeight:'lighter'}}>Connect with the {type} right now</h4>

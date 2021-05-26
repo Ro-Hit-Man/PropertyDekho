@@ -13,22 +13,12 @@ import './Header.css'
 export default function Header(props) {
 
     const [city, setCity] = useState("");
-    const [id, setId] = useState("");
 
     const searchData = useSelector(state => state.searchData);
     const islogin = useSelector(state => state.isLogin);
     const isBuyer = useSelector(state => state.canPostProperty);
     const dispatch = useDispatch();
 
-    function changeLiStyle(e){
-        document.getElementById('buy').style.backgroundColor = "blueviolet";
-        document.getElementById('rent').style.backgroundColor = "blueviolet";
-        document.getElementById('villa').style.backgroundColor = "blueviolet";
-        document.getElementById('house').style.backgroundColor = "blueviolet";
-        document.getElementById('apartment').style.backgroundColor = "blueviolet";
-        document.getElementById(e.target.id).style.backgroundColor = "rgb(45, 5, 83)";
-        setId(e.target.id);
-    }
 
     function showMenu(){
         document.getElementById('menu').style.display = "block";
@@ -47,11 +37,7 @@ export default function Header(props) {
     }
 
     function search(){
-        var data = {
-            city: city,
-            type: id,
-        }
-        dispatch({type:"SEARCHED",payload:data});
+        dispatch({type:"SEARCHED",payload:city});
     }
     return (
         <div>
@@ -74,14 +60,15 @@ export default function Header(props) {
                         </div>
                         </div>    
                     </div>
-                    <h1>We will help to find your dream home</h1>
+                    <NavLink to='/' exact><button id='logo-btn'>PROPERTY<span>Dekho</span></button></NavLink>
+                    <h2>We will help to find your dream home</h2>
                     <div class='nav'>
                         <ul>
-                            <li id='buy' onClick={(e)=>{changeLiStyle(e);}}>BUY</li>
-                            <li id='rent' onClick={(e)=>{changeLiStyle(e);}}>RENT</li>
-                            <li id='villa' onClick={(e)=>{changeLiStyle(e);}}>VILLA</li>
-                            <li id='house' onClick={(e)=>{changeLiStyle(e);}}>HOUSE</li>
-                            <li id='apartment' onClick={(e)=>{changeLiStyle(e);}}>APARTMENT</li>
+                            <li id='buy'>BUY</li>
+                            <li id='rent'>RENT</li>
+                            <li id='villa'>VILLA</li>
+                            <li id='house'>HOUSE</li>
+                            <li id='apartment'>APARTMENT</li>
                         </ul>
                     </div>
                     <div class='search-bar'>

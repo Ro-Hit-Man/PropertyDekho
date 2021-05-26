@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import {baseUrl} from '../config';
 import './Home.css'
 
 export default function Home(props) {
@@ -12,7 +13,7 @@ export default function Home(props) {
     const isBuyer = useSelector(state => state.canPostProperty);
 
     useEffect(() => {
-        axios.get("http://localhost:3000/listProperty").then((res)=>{
+        axios.post(baseUrl+"listProperty").then((res)=>{
             setProperty(res.data.data);
         });
     }, []);
@@ -23,7 +24,7 @@ export default function Home(props) {
 
     var listProperty = property.map((p)=>{
         return <div className="item" key={p._id}>
-                    <img id='proImg' src={"backend/userUploads/"+p.PropertyImages[0]} alt=""/>
+                    <img id='img' src={baseUrl+p.PropertyImages[0]} alt=""/>
                     <span>{p.PropertyDetails.location}</span>
                     <h4>{p.PropertyDetails.propertyTitle}</h4>
                     <div>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import './Profile.css'
+import {baseUrl} from '../config';
 
 export default function Profile(props) {
 
@@ -17,13 +18,14 @@ export default function Profile(props) {
 
     useEffect(() => {
         var id = localStorage.getItem("LOGIN_ID");
-        axios.get('http://localhost:3000/getUser?id='+id).then((res)=>{
+        console.log(id);
+        axios.post(baseUrl+'getUser?id='+id).then((res)=>{
             setName(res.data.data[0].name);
             setType(res.data.data[0].iam);
             setNumber(res.data.data[0].number);
             setPic(res.data.data[0].dp);
         });
-        axios.get('http://localhost:3000/listProperty').then((res)=>{
+        axios.post(baseUrl+'listProperty').then((res)=>{
             setProperty(res.data.data);
         });
     }, [])
@@ -39,19 +41,26 @@ export default function Profile(props) {
     }
 
     function upload(){
-        var formData = new FormData();
-        formData.append("profile",profile);
-        formData.append("id",id);
 
-        axios.post("http://localhost:3000/uploadDP", formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }).then((res)=>{
-                alert(res.data.data);
-            }).catch(res=>{
-                alert("sorry you are not authorised to do this action");
-            });
+        if(profile == undefined || profile == ""){
+            alert("First choose a pic");
+        }
+        else{
+            var formData = new FormData();
+            formData.append("profile",profile);
+            formData.append("id",id);
+
+            axios.post(baseUrl+"uploadDP", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }).then((res)=>{
+                    alert(res.data.data);
+                    window.location.reload(true);
+                }).catch(res=>{
+                    alert("sorry you are not authorised to do this action");
+                });
+        }
     }
 
     function remove(){
@@ -59,8 +68,9 @@ export default function Profile(props) {
             id : id,
             dp : pic
         }
-        axios.post("http://localhost:3000/removeDP", data).then((res)=>{
+        axios.post(baseUrl+"removeDP", data).then((res)=>{
             alert(res.data.data);
+            window.location.reload(true);
         });
     }
 
@@ -70,8 +80,9 @@ export default function Profile(props) {
                 id:id,
                 name:name,
             }
-            axios.post("http://localhost:3000/updateName", data).then((res)=>{
+            axios.post(baseUrl+"updateName", data).then((res)=>{
                 alert(res.data.data);
+                window.location.reload(true);
             });
         }
         if(uid == "number"){
@@ -79,8 +90,9 @@ export default function Profile(props) {
                 id:id,
                 number:number,
             }
-            axios.post("http://localhost:3000/updateNumber", data).then((res)=>{
+            axios.post(baseUrl+"updateNumber", data).then((res)=>{
             alert(res.data.data);
+            window.location.reload(true);
             });
         }
     }
@@ -92,7 +104,7 @@ export default function Profile(props) {
     var listProperty = property.map((p)=>{
         if(p.PropertyDetails.userId == id){
             return <div className="item" key={p._id}>
-                        <img id='proImg' src={"Details/backend/userUploads/"+p.PropertyImages[0]} alt=""/>
+                        <img id='img' src={baseUrl+p.PropertyImages[0]} alt=""/>
                         <span>{p.PropertyDetails.location}</span>
                         <h4>{p.PropertyDetails.propertyTitle}</h4>
                         <div>
@@ -107,7 +119,7 @@ export default function Profile(props) {
     return (
         <div className="profile-container">
             <div className="profile-div">
-                {pic == "" || pic == undefined?<img class='user-pic' src="images/profile.png"></img>:<img class='user-pic' src={"Details/backend/userUploads/"+pic}></img>}
+                {pic == "" || pic == undefined?<img class='user-pic' src="images/profile.png"></img>:<img class='user-pic' src={baseUrl+pic}></img>}
                 <div class='pic-btn'>
                     <form>
                     <input name='profile' type='file' onChange={(e)=>{setValue(e);}}></input>

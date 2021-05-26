@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import './Listing.css'
+import {baseUrl} from '../config';
 import { useSelector } from 'react-redux';
 
 function Listing(props) {
@@ -14,7 +15,7 @@ function Listing(props) {
     const data = useSelector(state => state.searchData);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/listProperty').then((res)=>{
+        axios.post(baseUrl+'listProperty').then((res)=>{
             setstateProperty(res.data.data);
             setfiltered(res.data.data);
         });
@@ -50,12 +51,12 @@ function Listing(props) {
     }
 
     var propertyList = filtered.map((p)=>{
-        if(p.PropertyDetails.city == data.city){
+        if(p.PropertyDetails.city == data){
                 return (
                     <li key={p._Id}>
                         <div class='listing-wrapper1'>
                             <div class='listing-img-div1'>
-                                <img src={"Details/backend/userUploads/"+p.PropertyImages[0]}></img>
+                                <img src={baseUrl+p.PropertyImages[0]}></img>
                             </div>
                             <div class='listing-details-div1'>
                                 <div class='listing-location-div1'>

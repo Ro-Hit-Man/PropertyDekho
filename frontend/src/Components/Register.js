@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
+import {baseUrl} from '../config';
 import axios from 'axios'
 import './Register.css'
 
@@ -14,7 +15,7 @@ export class Register extends Component {
             password:'',
             repassword:'',
             number:'',
-            iam:'',
+            iam:'buyer',
             code:'',
             code1:'',
             passwordRegex : /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/,
@@ -54,11 +55,8 @@ export class Register extends Component {
             document.getElementById('number').style.border = "3px solid red";
             alert('Enter valid mobile number');
         }
-        else if(this.state.buyer == ""){
-            alert('Choose one either buyer, owner or broker')
-        }
         else{
-            axios.get('http://localhost:3000/checkUser?email='+this.state.email).then((res)=>{
+            axios.post(baseUrl+'checkUser?email='+this.state.email).then((res)=>{
                 if( res.data.data[0] != undefined){
                     alert("User with same Email is already exist");
                 }
@@ -68,7 +66,7 @@ export class Register extends Component {
                         email:this.state.email,
                         code:this.state.code
                     }
-                    axios.post('http://localhost:3000/verifyUser',verify).then((res)=>{
+                    axios.post(baseUrl+'verifyUser',verify).then((res)=>{
                         alert(res.data.data);
                     });
                 }
@@ -85,7 +83,7 @@ export class Register extends Component {
             iam:this.state.iam,
         }
         if(this.state.code == this.state.code1){
-            axios.post('http://localhost:3000/registerUser', user).then((res)=>{
+            axios.post(baseUrl+'registerUser', user).then((res)=>{
                 alert(res.data.data);
                 document.getElementById('name').value = '';
                 document.getElementById('email').value = '';
@@ -108,7 +106,6 @@ export class Register extends Component {
                     <form id='registerForm'>
                         <div className='radio-div'>
                             <select name='iam' onChange={(e)=>{this.getDataFromLoginForm(e);}}>
-                                <option value=''>I AM:</option>
                                 <option value='buyer'>Buyer</option>
                                 <option value='owner'>Owner</option>
                                 <option value='broker'>Broker</option>
