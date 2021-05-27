@@ -64,8 +64,10 @@ export default function Header(props) {
                     <h2>We will help to find your dream home</h2>
                     <div class='nav'>
                         <ul>
+                            <span>You can</span>
                             <li id='buy'>BUY</li>
                             <li id='rent'>RENT</li>
+                            <span>Any</span>
                             <li id='villa'>VILLA</li>
                             <li id='house'>HOUSE</li>
                             <li id='apartment'>APARTMENT</li>

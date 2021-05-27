@@ -31,7 +31,6 @@
   .nav{
     width: 40%;
     height: 40px;
-    background-color: blueviolet;
     margin-top: 20px;
     margin-left: 50px;
   }
@@ -40,8 +39,17 @@
     width: 100%;
     display: flex;
   }
+  .nav span{
+    color: #303364;
+    width: 15%;
+    line-height: 40px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 17px;
+  }
   .nav ul li{
     color: white;
+    background-color: blueviolet;
     width: 20%;
     line-height: 40px;
     text-align: center;
@@ -159,11 +167,11 @@
   @media only screen and (max-width: 600px) {
     .Header{
       width: 100%;
-      height: 210px;
+      height: 160px;
       background-color: rgba(176, 183, 245, 0.601);
     }
     .Header img{
-      height: 210px;
+      height: 160px;
     }
     #logo-btn{
       background: transparent;

@@ -66,7 +66,7 @@ function Listing(props) {
                                 <h2>{p.propertyTitle}</h2>
                                 <div class='listing-area-div1'>
                                     <img src='images/home.png'></img>
-                                    <span><strong>{p.PropertyDetails.area}</strong> Sq. Ft.</span>
+                                    <span><strong>{p.PropertyDetails.areaSize}</strong> Sq. Ft.</span>
                                 </div>
                                 <div class='listing-features-div1'>
                                 <div>
