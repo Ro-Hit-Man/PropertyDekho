@@ -26,28 +26,28 @@ function Listing(props) {
     }
 
     function setValue(e){
+        var temp = [...filtered];
+        if(e.target.name=="type"){ 
+           temp = temp.filter((f)=>{
+                return f.PropertyDetails.propertyType == e.target.value;
+            }); 
+        }
+        if(e.target.name == "catagory"){ 
+            temp = temp.filter((f)=>{
+                 return f.PropertyDetails.propertyCatagory == e.target.value;
+             }); 
+         }
+         if(e.target.name == "bhk"){ 
+            temp = temp.filter((f)=>{
+                 return f.PropertyDetails.bedrooms == e.target.value;
+             }); 
+         }
+        setfiltered(temp);
         e.target.name == "type" && (settype(e.target.value));
         e.target.name == "catagory" && (setcatagory(e.target.value));
         e.target.name == "bhk" && (setbhk(e.target.value));
-
-        var temp = [...property];
-        if(type != ""){ 
-           temp = temp.filter((f)=>{
-                return f.PropertyDetails.propertyType == type;
-            }); 
-        }
-        if(catagory != ""){ 
-            temp = temp.filter((f)=>{
-                 return f.PropertyDetails.propertyCatagory == catagory;
-             }); 
-         }
-         if(bhk != ""){ 
-            temp = temp.filter((f)=>{
-                 return f.PropertyDetails.bedrooms == bhk;
-             }); 
-         }
-
-        setfiltered(temp);
+           
+        
     }
 
     var propertyList = filtered.map((p)=>{
