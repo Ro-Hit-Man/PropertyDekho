@@ -1,0 +1,19 @@
+# To configure this project
+
+1. Change the keys.js file in backend folder with your respected data.
+
+2. Change the config.js file in frontend folder with your i/p address or localhost address.
+
+3. Run a command (npm install) for both backend and frontend to install required pakages.
+
+4. Run (node index.js) for backend and (npm start) for frontend in two terminals.
+
+
+
+# Property Dekho Is live on
+
+http://3.141.244.250/
+
+# Git Repository Link
+
+https://github.com/Ro-Hit-Man/myhome.git

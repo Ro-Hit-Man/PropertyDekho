@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import './Listing.css'
@@ -6,17 +7,18 @@ import { useSelector } from 'react-redux';
 
 function Listing(props) {
 
-    const [property, setstateProperty] = useState([]);
+    var type = "";
+    var catagory = "";
+    var bhk = "";
+
     const [filtered, setfiltered] = useState([]);
-    const [type, settype] = useState("");
-    const [catagory, setcatagory] = useState("");
-    const [bhk, setbhk] = useState("");
+    const [property, setproperty] = useState([]);
 
     const data = useSelector(state => state.searchData);
 
     useEffect(() => {
         axios.post(baseUrl+'listProperty').then((res)=>{
-            setstateProperty(res.data.data);
+            setproperty(res.data.data);
             setfiltered(res.data.data);
         });
     }, []);
@@ -26,28 +28,30 @@ function Listing(props) {
     }
 
     function setValue(e){
+        e.target.name == "type" && (type=e.target.value);
+        e.target.name == "catagory" && (catagory=e.target.value);
+        e.target.name == "bhk" && (bhk=e.target.value);
+
         var temp = [...filtered];
-        if(e.target.name=="type"){ 
+        if(type !=""){
+            alert("in type"); 
            temp = temp.filter((f)=>{
-                return f.PropertyDetails.propertyType == e.target.value;
+                return f.PropertyDetails.propertyType == type;
             }); 
         }
-        if(e.target.name == "catagory"){ 
+        if(catagory != ""){
+            alert('in catagory'); 
             temp = temp.filter((f)=>{
-                 return f.PropertyDetails.propertyCatagory == e.target.value;
+                 return f.PropertyDetails.propertyCatagory == catagory;
              }); 
          }
-         if(e.target.name == "bhk"){ 
+         if(bhk != ""){ 
+             alert('in bhk');
             temp = temp.filter((f)=>{
-                 return f.PropertyDetails.bedrooms == e.target.value;
+                 return f.PropertyDetails.bedrooms == bhk;
              }); 
          }
         setfiltered(temp);
-        e.target.name == "type" && (settype(e.target.value));
-        e.target.name == "catagory" && (setcatagory(e.target.value));
-        e.target.name == "bhk" && (setbhk(e.target.value));
-           
-        
     }
 
     var propertyList = filtered.map((p)=>{
