@@ -7,12 +7,12 @@ import { useSelector } from 'react-redux';
 
 function Listing(props) {
 
-    var type = "";
-    var catagory = "";
-    var bhk = "";
 
     const [filtered, setfiltered] = useState([]);
     const [property, setproperty] = useState([]);
+    const [type, settype] = useState("");
+    const [catagory, setcatagory] = useState("");
+    const [bhk, setbhk] = useState("");
 
     const data = useSelector(state => state.searchData);
 
@@ -28,33 +28,41 @@ function Listing(props) {
     }
 
     function setValue(e){
-        e.target.name == "type" && (type=e.target.value);
-        e.target.name == "catagory" && (catagory=e.target.value);
-        e.target.name == "bhk" && (bhk=e.target.value);
+        let type2 = type;
+        let catagory2 = catagory;
+        let bhk2 = bhk;
+        e.target.name == "type" && (type2=e.target.value);
+        e.target.name == "catagory" && (catagory2=e.target.value);
+        e.target.name == "bhk" && (bhk2=e.target.value);
+        e.target.name == "type" && (settype(e.target.value));
+        e.target.name == "catagory" && (setcatagory(e.target.value));
+        e.target.name == "bhk" && (setbhk(e.target.value));
 
-        var temp = [...filtered];
-        if(type !=""){
-            alert("in type"); 
+        let temp = [...property];
+
+        if(type2 !=""){ 
            temp = temp.filter((f)=>{
-                return f.PropertyDetails.propertyType == type;
+                return f.PropertyDetails.propertyType == type2;
             }); 
         }
-        if(catagory != ""){
-            alert('in catagory'); 
+        
+        if(catagory2 != ""){
             temp = temp.filter((f)=>{
-                 return f.PropertyDetails.propertyCatagory == catagory;
+                 return f.PropertyDetails.propertyCatagory == catagory2;
              }); 
          }
-         if(bhk != ""){ 
-             alert('in bhk');
+
+         if(bhk2 != ""){
             temp = temp.filter((f)=>{
-                 return f.PropertyDetails.bedrooms == bhk;
+                 return f.PropertyDetails.bedrooms == bhk2;
              }); 
          }
-        setfiltered(temp);
+
+         setfiltered(temp);
     }
 
     var propertyList = filtered.map((p)=>{
+
         if(p.PropertyDetails.city == data){
                 return (
                     <li key={p._Id}>
