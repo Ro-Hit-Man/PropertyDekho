@@ -33,7 +33,7 @@ export default function Header(props) {
         dispatch( {type:"LOGGEDOUT"} );
         dispatch( {type:"NOT_BUYER"} );
         localStorage.setItem("LOGIN_ID", "no");
-        // props.history.push('/');
+        window.location.reload(true);
     }
 
     function search(){

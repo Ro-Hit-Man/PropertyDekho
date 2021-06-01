@@ -201,8 +201,14 @@ app.post('/removeDP',bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
     userCollection.update({_id:ObjectID(req.body.id)},{$set:{dp:""}},(err,result)=>{
         if(!err){
-            fs.unlinkSync(req.body.dp);
             res.send({status:"ok",data:"DP Removed Succesfully"});
+            if(fs.existsSync('./userUploads/'+req.body.dp)){
+                fs.unlink('./userUploads/'+req.body.dp,(err)=>{
+                    if(err){
+                        console.log(err);
+                    }
+                });
+            }
         }
         else{
             res.send({status:"failed",data:err});
