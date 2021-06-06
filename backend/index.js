@@ -4,10 +4,10 @@ var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var path = require('path');
-var upload = require('./multerConfig');
+var upload = require('./config/multerConfig');
 var fs = require('fs');
 var nodemailer = require('nodemailer');
-var keys = require('./keys');
+var keys = require('./config/keys');
 
 var app = express();
 app.use(cors());
@@ -88,12 +88,24 @@ app.post('/listProperty', bodyParser.json(),(req,res)=>{
 
 app.post('/detailProperty', bodyParser.json(),(req,res)=>{
     var propertyCollection = connection.db('myhome').collection('property');
-    propertyCollection.find({_id:ObjectID(req.query.id)}).toArray((err,docs)=>{
+    propertyCollection.find({_id:ObjectID(req.body.id)}).toArray((err,docs)=>{
         if(!err){
             res.send({status:"ok",data:docs});
         }
         else{
             res.send({status:"failed",data:err});
+        }
+    });
+});
+
+app.post('/deleteProperty', bodyParser.json(),(req,res)=>{
+    var propertyCollection = connection.db('myhome').collection('property');
+    propertyCollection.remove({_id:ObjectID(req.body.id)} ,(err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data: "Property Deleted Successfully"});
+        }
+        else{
+            res.send({status:"failed",data: "Error Deleting Property"});
         }
     });
 });
@@ -111,7 +123,7 @@ app.post('/connect',bodyParser.json(),(req,res)=>{
 
 app.post('/checkUser',  bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
-    userCollection.find({email: req.query.email}).toArray((err,docs)=>{
+    userCollection.find({email: req.body.email}).toArray((err,docs)=>{
         if(!err){
             res.send({status:"ok",data:docs});
         }
@@ -140,7 +152,7 @@ app.post('/registerUser', bodyParser.json(), (req,res)=>{
 
 app.post('/getUser',  bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
-    userCollection.find({_id:ObjectID(req.query.id)}).toArray((err,docs)=>{
+    userCollection.find({_id:ObjectID(req.body.id)}).toArray((err,docs)=>{
         if(!err){
             res.send({status:"ok",data:docs});
         }
@@ -152,7 +164,7 @@ app.post('/getUser',  bodyParser.json(),(req,res)=>{
 
 app.post('/loginUser', bodyParser.json(), (req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
-    userCollection.find({email: req.query.email , password: req.query.password}).toArray((err,docs)=>{
+    userCollection.find({email: req.body.email , password: req.body.password}).toArray((err,docs)=>{
         if(!err){
             res.send({status:"ok",data:docs});
         }
@@ -164,7 +176,7 @@ app.post('/loginUser', bodyParser.json(), (req,res)=>{
 
 app.post('/forgotPassword', bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
-    userCollection.find({email: req.query.email}).toArray((err,data)=>{
+    userCollection.find({email: req.body.email}).toArray((err,data)=>{
         if(!err){
             sendMail(keys.Mail.email,keys.Mail.key, req.query.email, "Forgot Password","<h1>Hi!"+data[0].name+"<br/> Your password is = "+data[0].password+"</h1>");
             res.send({status:"ok",data:"An Email is send to you..."});
@@ -240,6 +252,44 @@ app.post('/updateNumber' , bodyParser.json(),(req,res)=>{
     }); 
 });
 
+app.post('/registerGoogleUser',bodyParser.json(),(req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.insert(req.body, (err,reult)=>{
+        if(!err){
+            res.send({status:'201',data:"User Registered"});
+        }
+        else{
+            res.send({status:'404',data:"Problem in Registration try agian"});
+            console.log(err);
+        }
+    });
+});
+
+app.post('/checkGoogleUser',bodyParser.json(),(req,res)=>{
+    // console.log(req.body);
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.find({email:req.body.email}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:'201',data:docs});
+        }
+        else{
+            console.log(err);
+        }
+    });
+});
+
+app.post('/loginGoogleUser',bodyParser.json(),(req,res)=>{
+    var userCollection = connection.db('myhome').collection('user');
+    userCollection.find({googleId:req.body.id}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:'201',data:docs});
+        }
+        else{
+            console.log(err);
+        }
+    });
+});
+
 function sendMail(from, appPassword, to, subject,  htmlmsg){
     let transporter=nodemailer.createTransport({
             host:"smtp.gmail.com",
@@ -269,5 +319,5 @@ function sendMail(from, appPassword, to, subject,  htmlmsg){
 }
 
 app.listen(3000,()=>{
-    console.log("Server is listing at port 80");
+    console.log("Server is listing at port 3000");
 });

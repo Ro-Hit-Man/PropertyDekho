@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom';
 import {baseUrl} from '../config';
 import axios from 'axios'
-import './Register.css'
+import '../Styles/Register.css'
+import GoogleLogin from 'react-google-login';
+import Footer from '../Partials/Footer';
 
 export class Register extends Component {
 
@@ -14,8 +16,6 @@ export class Register extends Component {
             email:'',
             password:'',
             repassword:'',
-            number:'',
-            iam:'buyer',
             code:'',
             code1:'',
             passwordRegex : /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/,
@@ -51,12 +51,8 @@ export class Register extends Component {
             document.getElementById('email').style.border = "3px solid red";
             alert('Enter valid email address');
         }
-        else if(this.state.number.length<10 || this.state.number.length>10 || this.state.number == "" || this.state.number == null){
-            document.getElementById('number').style.border = "3px solid red";
-            alert('Enter valid mobile number');
-        }
         else{
-            axios.post(baseUrl+'checkUser?email='+this.state.email).then((res)=>{
+            axios.post(baseUrl+'checkUser',{email:this.state.email}).then((res)=>{
                 if( res.data.data[0] != undefined){
                     alert("User with same Email is already exist");
                 }
@@ -74,13 +70,38 @@ export class Register extends Component {
         }
     }
 
+    responseGoogle(response) {
+        var id = response.profileObj.googleId;
+        var email = response.profileObj.email;
+        axios.post('http://localhost:3000/checkGoogleUser', {email}).then((res)=>{
+            if(res.data.data[0] != undefined){
+                alert('you have already registered with this email....Please login');
+            } 
+            else{
+                var user = {
+                    name: response.profileObj.name,
+                    googleId : response.profileObj.googleId,
+                    email : response.profileObj.email,
+                    imageUrl : response.profileObj.imageUrl,
+                    admin:""
+                }
+               axios.post('http://localhost:3000/registerGoogleUser',user).then((res)=>{
+                   alert(res.data.data);
+                   if(res.data.data === "User Registered"){
+                      localStorage.setItem('G_ID', id);
+                   }
+               });
+            }
+        });
+     }
+
     register(){
         var user = {
             name:this.state.name,
             email:this.state.email,
             password:this.state.password,
-            number:this.state.number,
-            iam:this.state.iam,
+            imageUrl:"",
+            admin:"",
         }
         if(this.state.code == this.state.code1){
             axios.post(baseUrl+'registerUser', user).then((res)=>{
@@ -89,7 +110,6 @@ export class Register extends Component {
                 document.getElementById('email').value = '';
                 document.getElementById('password').value = '';
                 document.getElementById('repassword').value = '';
-                document.getElementById('number').value = '';
                 this.props.history.push('/Login');
             });
         }
@@ -104,27 +124,32 @@ export class Register extends Component {
                 <div class='register-wrapper'>
                     <h1>Register</h1>
                     <form id='registerForm'>
-                        <div className='radio-div'>
-                            <select name='iam' onChange={(e)=>{this.getDataFromLoginForm(e);}}>
-                                <option value='buyer'>Buyer</option>
-                                <option value='owner'>Owner</option>
-                                <option value='broker'>Broker</option>
-                            </select>
-                        </div>
                         <input id='name' placeholder='Enter Name' name='name' value={this.state.name} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
                         <input id='email' placeholder='Enter Email' name='email' value={this.state.email} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
                         <input type='password' id='password' placeholder='Enter Password' name='password' value={this.state.password} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
                         <input type='password' id='repassword' placeholder='Re-Enter Password' name='repassword' value={this.state.repassword} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
-                        <input id='number' placeholder='Enter Mobile Number'name='number' value={this.state.number} onChange={(e)=>{this.getDataFromLoginForm(e);}}></input>
                         <button type='button' onClick={()=>{this.verify();}}>Get Verification Code</button>
                     </form>
                     <div className='verify-div'>
                         <input id='code1' placeholder="Enter verification code" name='code1' value={this.state.code1} onChange={(e)=>{this.setState({[e.target.name]:e.target.value})}}></input>
                         <button type='reset' onClick={()=>{this.register();}}>REGISTER</button>
                     </div>
-                    
+                    <div className='google-btn-outer'>
+                        <div className='google-btn-inner'>
+                            <GoogleLogin
+                                clientId='1044529583764-bp2o5q8n70519mcev0ea6hcmgnf5v3rc.apps.googleusercontent.com'
+                                render={renderProps => (
+                                    <button id='google-btn' onClick={renderProps.onClick} disabled={renderProps.disabled}>REGISTER WITH GOOGLE</button>
+                                )}
+                                onSuccess={this.responseGoogle}
+                                onFailure={this.responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            />
+                        </div>
+                    </div>
                     <NavLink exact to='/Login'><p>Already have an account?<span>Login Now</span></p></NavLink>
                 </div>
+                <Footer/>
             </div>
         )
     }

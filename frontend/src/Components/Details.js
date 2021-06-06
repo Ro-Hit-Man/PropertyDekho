@@ -1,15 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import './Details.css'
+import '../Styles/Details.css'
 import {baseUrl} from '../config';
+import Footer from '../Partials/Footer';
 
 export default function Details(props) {
 
     const [property, setproperty] = useState("");
     const [images, setimages] = useState("");
     const [name, setName] = useState("");
-    const [type, setType] = useState("");
     const [pic, setPic] = useState("");
     const [email, setEmail] = useState("");
     const [useremail, setuseremail] = useState("");
@@ -17,22 +17,16 @@ export default function Details(props) {
     const [username, setusername] = useState("");
     var emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/;
 
-    var uid = localStorage.getItem("LOGIN_ID");
-
-    const isLogin = useSelector(state => state.isLogin);
 
     var id = props.match.params.id;
 
     useEffect(() => {
-        console.log(
-            
-        )
-        axios.post(baseUrl+"detailProperty?id="+id).then((res)=>{
+        console.log("ha");
+        axios.post(baseUrl+"detailProperty",{id}).then((res)=>{
                 setproperty( res.data.data[0].PropertyDetails);
                 setimages(res.data.data[0].PropertyImages);
-                axios.post(baseUrl+'getUser?id='+res.data.data[0].PropertyDetails.userId).then((res)=>{
+                axios.post(baseUrl+'getUser',{id:res.data.data[0].PropertyDetails.userId}).then((res)=>{
                     setName(res.data.data[0].name);
-                    setType(res.data.data[0].iam);
                     setPic(res.data.data[0].dp);
                     setEmail(res.data.data[0].email);
                 });
@@ -51,7 +45,6 @@ export default function Details(props) {
             location: property.location+","+property.city+","+property.state
         }
 
-        if(uid == "no"){
             if(username == "" || username == null || username.length == 0){
                 alert('Name cannot be Empty');
             }
@@ -66,28 +59,7 @@ export default function Details(props) {
                     alert(res.data.data);
                 });
             }
-        }
-        else{
-            axios.post(baseUrl+'getUser?id='+uid).then((res)=>{
-                setusername(res.data.data[0].name);
-                setuseremail(res.data.data[0].email);
-                setusernumber(res.data.data[0].number);
-            });
-
-            var data = {
-                name : name,
-                email: email,
-                username: username,
-                useremail: useremail,
-                usernumber: usernumber,
-                propertyname: property.propertyTitle,
-                location: property.location+","+property.city+","+property.state
-            }
-            
-            axios.post(baseUrl+'connect', data).then((res)=>{
-                    alert(res.data.data);
-            });
-        }
+        
     }
 
     return (
@@ -271,21 +243,18 @@ export default function Details(props) {
                 </div>
                 <div class='contact-div'>
                 {pic == "" || pic == undefined?<img src="images/profile.png"></img>:<img src={baseUrl+pic}></img>}
-                    <h3>{name}({type})</h3>
+                    <h3>{name}</h3>
                     <hr/>
-                    <h4 style={{fontWeight:'lighter'}}>Connect with the {type} right now</h4>
-                    <hr/>
-                    {isLogin?
-                        <button id='connect' onClick={()=>{connect();}}>CONNECT</button>
-                        :  
+                    <h4 style={{fontWeight:'lighter'}}>Connect with the owner right now</h4>
+                    <hr/>  
                         <form>
                             <input type='text' placeholder='Enter Your Name' value={username} onChange={(e)=>{setusername(e.target.value);}}></input>
                             <input type='email' placeholder='Enter Your Email' value={useremail} onChange={(e)=>{setuseremail(e.target.value);}}></input>
                             <input type='text' placeholder="Enter Your Number" value={usernumber} onChange={(e)=>{setusernumber(e.target.value);}}></input>
                             <button onClick={()=>{connect();}}>CONNECT</button>
                         </form>
-                    }
                 </div>
+                <Footer/>
             </div>
     )
 }

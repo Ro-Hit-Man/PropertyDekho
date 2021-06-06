@@ -1,27 +1,29 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import './Profile.css'
+import '../Styles/Profile.css'
 import {baseUrl} from '../config';
+import Footer from '../Partials/Footer';
 
 export default function Profile(props) {
 
     const id = useSelector(state => state.UserData);
+    const isAdmin = useSelector(state => state.isAdmin);
 
     var profile;
 
     const [property, setProperty] = useState([]);
     const [name, setName] = useState("");
-    const [type, setType] = useState("");
     const [number, setNumber] = useState("");
     const [pic, setPic] = useState("");
+    const [email, setemail] = useState("");
 
     useEffect(() => {
         var id = localStorage.getItem("LOGIN_ID");
         console.log(id);
-        axios.post(baseUrl+'getUser?id='+id).then((res)=>{
+        axios.post(baseUrl+'getUser',{id}).then((res)=>{
             setName(res.data.data[0].name);
-            setType(res.data.data[0].iam);
+            setemail(res.data.data[0].email);
             setNumber(res.data.data[0].number);
             setPic(res.data.data[0].dp);
         });
@@ -101,6 +103,15 @@ export default function Profile(props) {
         props.history.push("/Details/"+id);
     }
 
+    function deleteProperty(id){
+        if (window.confirm("Are You Sure You Want To Delete This Property")) {
+            axios.post(baseUrl+'deleteProperty', {id:id}).then((res)=>{
+                alert(res.data.data);
+                window.location.reload(true);
+            });
+        }
+    }
+
     var listProperty = property.map((p)=>{
         if(p.PropertyDetails.userId == id){
             return <div className="item" key={p._id}>
@@ -114,6 +125,43 @@ export default function Profile(props) {
                         <button onClick={()=>{showDetails(p._id)}}>VIEW DETAILS</button>
                     </div>
         }
+    });
+
+    var listProperty2 = property.map((p)=>{
+            return <li key={p._Id}>
+            <div class='listing-wrapper1'>
+                <div class='listing-img-div1'>
+                    <img src={baseUrl+p.PropertyImages[0]}></img>
+                </div>
+                <div class='listing-details-div1'>
+                    <div class='listing-location-div1'>
+                        <img src='images/location.png'></img>
+                        <span>{p.PropertyDetails.location} , {p.PropertyDetails.landmark} , {p.PropertyDetails.city} , {p.PropertyDetails.state} -- {p.PropertyDetails.zipcode}</span>
+                    </div>
+                    <h2>{p.propertyTitle}</h2>
+                    <div class='listing-area-div1'>
+                        <img src='images/home.png'></img>
+                        <span><strong>{p.PropertyDetails.areaSize}</strong> Sq. Ft.</span>
+                    </div>
+                    <div class='listing-features-div1'>
+                    <div>
+                            <img src='images/i-bed.png'></img>
+                            <span><strong>{p.PropertyDetails.bedrooms}</strong></span>
+                    </div>
+                    </div>
+                    <button onClick={()=>{showDetails(p._id)}}>VIEW DETAIL</button>
+                    <button onClick={()=>{deleteProperty(p._id)}}>DELETE PROPERTY</button>
+                </div>
+                <div style={{marginLeft:'10px'}}>
+                    <span>Property Posted By</span>
+                    <h4>{name}</h4>
+                    <h5>{email}</h5>
+                </div>
+                <div class='listing-category1'>FOR {p.PropertyDetails.propertyCatagory}</div>
+                <div class='listing-type1'>{p.PropertyDetails.propertyType}</div>
+                <div class='listing-price1'>{p.PropertyDetails.price}</div>
+            </div>
+        </li>
     });
 
     return (
@@ -133,21 +181,26 @@ export default function Profile(props) {
                     <img onClick={()=>{edit("name")}} src='images/edit.png'></img>
                     <img onClick={()=>{update("name")}} src='images/ok.png'></img>
                 </div>
-                <div class='user-number'>
-                    <input id='number' type='text' value={number} disabled onChange={(e)=>{setNumber(e.target.value)}}></input>
-                    <img onClick={()=>{edit("number")}} src='images/edit.png'></img>
-                    <img onClick={()=>{update("number")}} src='images/ok.png'></img>
-                </div>
-                <img id='buyer' src={'images/'+type+'.png'}></img>
-                <h5 id='h5'>You Have {type} Profile</h5>
-                <h6 id='h6'>(You {type == "buyer"?"Cannot":"Can"} Upload Property <br/> With {type} Profile)</h6>
             </div>
-            {type == "buyer"?"":<div class="uploaded-property">
+            {isAdmin?
+            <div>
+                <h1 style={{color:'white',textAlign:'center',marginTop:'50px',fontWeight:'500',fontSize:'40px'}}>List Of Properties</h1>
+                    <div style={{background:'transparent'}} className='listing-container'>
+                            <ul>
+                            {listProperty2}
+                            </ul>
+                    </div>
+            </div>
+            :
+            <div class="uploaded-property">
                     <h1>Your Uploaded Properties</h1>
                     <div class="uploaded-property-wrapper">
                             {listProperty}
                     </div>
             </div>}
+
+            <Footer/>
+
         </div>
     )
 }

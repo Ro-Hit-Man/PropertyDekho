@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios'
 import {baseUrl} from '../config';
-import './PostProperty.css'
+import '../Styles/PostProperty.css'
+import Footer from '../Partials/Footer';
 
 export default function PostProperty() {
 
@@ -365,6 +366,8 @@ export default function PostProperty() {
                         <button onClick={()=>{sendData();}}>SUBMIT PROPERTY</button>
                     </div>
                 </form>
+            <Footer/>
+
             </div>
     )
 }

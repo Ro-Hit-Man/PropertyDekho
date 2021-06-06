@@ -9,6 +9,10 @@
   .login-wrapper{
       width: 30%;
       height: 550px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
       box-shadow: 0px 4px 6px 0px grey;
       background-color: #f8ceec;
      background-image: linear-gradient(315deg, #f8ceec 0%, #a88beb 74%);
@@ -32,9 +36,9 @@
     margin-left: 40%;
   }
   .login-wrapper p{
-    margin-top: 100px;
+    /* margin-top: 100px; */
     font-weight: 400;
-    margin-left: 27%;
+    /* margin-left: 27%; */
   }
   .login-wrapper p span{
     color: rgb(235, 57, 95);
@@ -44,7 +48,6 @@
   }
   #forgot{
     float: right;
-    margin-right: 20px;
     cursor: pointer;
   }
   

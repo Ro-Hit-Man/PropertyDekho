@@ -1,9 +1,10 @@
 
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import './Listing.css'
+import '../Styles/Listing.css'
 import {baseUrl} from '../config';
 import { useSelector } from 'react-redux';
+import Footer from '../Partials/Footer';
 
 function Listing(props) {
 
@@ -135,6 +136,7 @@ function Listing(props) {
             <ul>
                 {propertyList}
             </ul>
+            <Footer/>
         </div>
     )
 }

@@ -8,7 +8,10 @@ import Login from './Login';
 import PostProperty from './PostProperty';
 import Profile from './Profile';
 import Register from './Register';
-import './Header.css'
+import '../Styles/Header.css'
+import HomeCleaning from './HomeCleaning';
+import PestControl from './PestControl';
+import Sanitization from './Sanitization';
 
 export default function Header(props) {
 
@@ -16,22 +19,13 @@ export default function Header(props) {
 
     const searchData = useSelector(state => state.searchData);
     const islogin = useSelector(state => state.isLogin);
-    const isBuyer = useSelector(state => state.canPostProperty);
+    const isAdmin = useSelector(state => state.isAdmin);
     const dispatch = useDispatch();
-
-
-    function showMenu(){
-        document.getElementById('menu').style.display = "block";
-    }
-
-    function hideMenu(){
-        document.getElementById('menu').style.display = "none";
-    }
 
     function logout(){
         dispatch( {type:"LOGIN_FALSE"} );
         dispatch( {type:"LOGGEDOUT"} );
-        dispatch( {type:"NOT_BUYER"} );
+        dispatch( {type:"NOT_ADMIN"} );
         localStorage.setItem("LOGIN_ID", "no");
         window.location.reload(true);
     }
@@ -45,20 +39,10 @@ export default function Header(props) {
                     <img src='images/properties.png'></img>
                     <div class='login-post-btn'>
                         <div id='post-btn-div'>
-                            {isBuyer?"":<NavLink exact to={islogin?"/PostProperty":"/Login"}><button>Post Property <span>Free</span></button></NavLink>}
+                            <NavLink exact to={islogin?"/PostProperty":"/Login"}><button>Post Property <span>Free</span></button></NavLink>
                         </div>
-                         <div>
-                         <img onClick={()=>{showMenu();}} src='images/menu.png'></img>
-                         <div class='menu-div' id='menu'>
-                            <ul>
-                                <li id='close'><span onClick={()=>{hideMenu();}}>X</span></li>
-                                {islogin?<NavLink exact to="/Profile"><li>My Profile</li></NavLink>:""}
-                                {islogin?"":<NavLink exact to="/Login"><li>Login</li></NavLink>}
-                                {islogin?"":<NavLink exact to="/Register"><li>Register</li></NavLink>}
-                                {islogin?<li onClick={()=>{logout()}}>Logout</li>:""}
-                            </ul>
-                        </div>
-                        </div>    
+                         {islogin?<NavLink to='/Profile' exact><img id='user-img' src='images/user.png'></img></NavLink>:""}
+                         { islogin? <img onClick={()=>{logout();}} id='logout-img' src='images/logout.png'></img> : "" }
                     </div>
                     <NavLink to='/' exact><button id='logo-btn'>PROPERTY<span>Dekho</span></button></NavLink>
                     <h2>We will help to find your dream home</h2>
@@ -98,6 +82,9 @@ export default function Header(props) {
                     <Route path="/Listing" component={Listing}/>
                     <Route path="/Details/:id"  component={Details}/>
                     <Route path="/Profile" exact component={Profile}/>
+                    <Route path="/HomeCleaning" exact component={HomeCleaning}/>
+                    <Route path="/PestControl" exact component={PestControl}/>
+                    <Route path="/Sanitization" exact component={Sanitization}/>
                 </Switch>
                 </div>
             </div>

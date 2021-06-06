@@ -1,9 +1,9 @@
-export function canPostProperty(state = false , action){
+export function isAdmin(state = false , action){
     switch(action.type){
-        case "BUYER":
+        case "ADMIN":
             state = true;
             return state;
-        case "NOT_BUYER":
+        case "NOT_ADMIN":
             state = false;
             return state;
         default :

@@ -1,10 +1,10 @@
 import { createStore, combineReducers } from 'redux';
-import {canPostProperty} from '../Reducers/PostPropertyReducer'
+import {isAdmin} from '../Reducers/AdminReducer'
 import { isLogin } from "../Reducers/LoginReducer";
 import {UserData} from "../Reducers/UserReducer";
 import {searchData} from "../Reducers/SearchReducer";
 
-var rootReducer = combineReducers({canPostProperty,isLogin,UserData,searchData});
+var rootReducer = combineReducers({isAdmin,isLogin,UserData,searchData});
 
 var Store = createStore(rootReducer);
 

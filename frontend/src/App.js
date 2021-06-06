@@ -16,9 +16,9 @@ function App() {
         var id = localStorage.getItem("LOGIN_ID");
         dispatch({type: "LOGIN_TRUE"});
         dispatch({type: "LOGGEDIN",payload: id });
-        axios.get(baseUrl+'getUser?id='+id).then((res)=>{
-            if(res.data.data[0].iam == "buyer"){
-              dispatch({type: "BUYER"});
+        axios.post(baseUrl+'getUser',{id}).then((res)=>{
+            if(res.data.data[0].admin){
+              dispatch({type: "ADMIN"});
           }
         });
       }
