@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {baseUrl} from '../config';
 import Footer from '../Partials/Footer';
@@ -10,6 +10,7 @@ export default function Home(props) {
 
     const [property, setProperty] = useState([]);
 
+    const dispatch = useDispatch();
     const islogin = useSelector(state => state.isLogin);
 
     useEffect(() => {
@@ -20,6 +21,11 @@ export default function Home(props) {
 
     function showDetails(id){
         props.history.push("/Details/"+id);
+    }
+
+    function setName(e){
+        var id = e;
+        localStorage.setItem("CATAGORY", id);
     }
 
     var listProperty = property.map((p)=>{
@@ -44,21 +50,21 @@ export default function Home(props) {
                             <img src='images/services-bg.png'></img>
                             <img class='service-img' src='images/i-trust.png'></img>
                             <NavLink to='/HomeCleaning'>
-                            <h3>Home Cleaning</h3>
+                            <h3 onMouseOver={()=>{setName('Home Cleaning');}}>Home Cleaning</h3>
                             </NavLink>
                         </div>
                         <div class='services-item'>
                             <img src='images/services-bg.png'></img>
                             <img class='service-img' src='images/i-choice.png'></img>
                             <NavLink to='/PestControl' exact>
-                            <h3>Pest Control</h3>
+                            <h3 onMouseOver={()=>{setName('Pest Control')}}>Pest Control</h3>
                             </NavLink>
                         </div>
                         <div class='services-item'>
                             <img src='images/services-bg.png'></img>
                             <img class='service-img' src='images/i-prefer.png'></img>
                             <NavLink to='Sanitization' exact>
-                            <h3>Sanitizing</h3>
+                            <h3 onMouseOver={()=>{setName('Sanitizing')}}>Sanitizing</h3>
                             </NavLink>
                         </div>
                     </div>

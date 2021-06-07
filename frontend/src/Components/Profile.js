@@ -13,6 +13,7 @@ export default function Profile(props) {
     var profile;
 
     const [property, setProperty] = useState([]);
+    const [interest, setinterest] = useState([]);
     const [name, setName] = useState("");
     const [number, setNumber] = useState("");
     const [pic, setPic] = useState("");
@@ -20,83 +21,91 @@ export default function Profile(props) {
 
     useEffect(() => {
         var id = localStorage.getItem("LOGIN_ID");
-        console.log(id);
         axios.post(baseUrl+'getUser',{id}).then((res)=>{
             setName(res.data.data[0].name);
             setemail(res.data.data[0].email);
             setNumber(res.data.data[0].number);
-            setPic(res.data.data[0].dp);
+            setPic(res.data.data[0].imageUrl);
         });
         axios.post(baseUrl+'listProperty').then((res)=>{
             setProperty(res.data.data);
         });
+        axios.post(baseUrl+'listInterest').then((res)=>{
+            setinterest(res.data.data);
+        })
+        document.getElementById('image-form').style.display = 'none';
+        document.getElementById('name-form').style.display = 'none';
     }, [])
 
-    function edit(id){
-        document.getElementById(id).removeAttribute("disabled");
-        document.getElementById(id).removeAttribute("disabled");
-
-    }
 
     function setValue(e){
         e.target.name == "profile" && (profile = e.target.files[0]);
     }
 
-    function upload(){
-
-        if(profile == undefined || profile == ""){
-            alert("First choose a pic");
+    function uploadImg(){
+        if(pic == ""){
+            if(profile == undefined || profile == ""){
+                alert("First choose a pic");
+            }
+            else{
+                var formData = new FormData();
+                formData.append("profile",profile);
+                formData.append("id",id);
+    
+                axios.post(baseUrl+"uploadDP", formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }).then((res)=>{
+                        alert(res.data.data);
+                        window.location.reload(true);
+                    }).catch(res=>{
+                        alert("Please Upload image in only (png, jpg, jpeg, webp, jfif) format");
+    
+                    });
+             }
         }
         else{
-            var formData = new FormData();
-            formData.append("profile",profile);
-            formData.append("id",id);
-
-            axios.post(baseUrl+"uploadDP", formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }).then((res)=>{
-                    alert(res.data.data);
-                    window.location.reload(true);
-                }).catch(res=>{
-                    alert("sorry you are not authorised to do this action");
-                });
+            if(profile == undefined || profile == ""){
+                alert("First choose a pic");
+            }
+            else{
+                var data = {
+                    id : id,
+                    dp : pic
+                }
+                axios.post(baseUrl+"removeDP", data).then((res)=>{
+                    var formData = new FormData();
+                    formData.append("profile",profile);
+                    formData.append("id",id);
+        
+                    axios.post(baseUrl+"uploadDP", formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }).then((res)=>{
+                            alert(res.data.data);
+                            window.location.reload(true);
+                        }).catch(res=>{
+                            alert("Please Upload image in only (png, jpg, jpeg, webp, jfif) format");
+        
+                        });
+                    });
+            }
+            
         }
     }
 
-    function remove(){
+
+    function updateName(){
         var data = {
-            id : id,
-            dp : pic
+            id:id,
+            name:name,
         }
-        axios.post(baseUrl+"removeDP", data).then((res)=>{
+        axios.post(baseUrl+"updateName", data).then((res)=>{
             alert(res.data.data);
             window.location.reload(true);
         });
-    }
-
-    function update(uid){
-        if(uid == "name"){
-            var data = {
-                id:id,
-                name:name,
-            }
-            axios.post(baseUrl+"updateName", data).then((res)=>{
-                alert(res.data.data);
-                window.location.reload(true);
-            });
-        }
-        if(uid == "number"){
-            var data = {
-                id:id,
-                number:number,
-            }
-            axios.post(baseUrl+"updateNumber", data).then((res)=>{
-            alert(res.data.data);
-            window.location.reload(true);
-            });
-        }
     }
 
     function showDetails(id){
@@ -106,6 +115,15 @@ export default function Profile(props) {
     function deleteProperty(id){
         if (window.confirm("Are You Sure You Want To Delete This Property")) {
             axios.post(baseUrl+'deleteProperty', {id:id}).then((res)=>{
+                alert(res.data.data);
+                window.location.reload(true);
+            });
+        }
+    }
+
+    function deleteInterest(id){
+        if (window.confirm("Are You Sure You Want To Delete This Interest")) {
+            axios.post(baseUrl+'deleteInterest', {id:id}).then((res)=>{
                 alert(res.data.data);
                 window.location.reload(true);
             });
@@ -164,32 +182,50 @@ export default function Profile(props) {
         </li>
     });
 
+    var listInterest = interest.map((i)=>{
+        return <div className="interest-item" key={i._id}>
+                    <h2>{i.package}</h2>
+                    <h5>Contact info --</h5>
+                    <h4>{i.username}</h4>
+                    <h4>{i.useremail}</h4>
+                    <h4>{i.usernumber}</h4>
+                    <button onClick={()=>{deleteInterest(i._id)}}>DELETE INTEREST</button>
+               </div>
+    })
+
     return (
         <div className="profile-container">
             <div className="profile-div">
                 {pic == "" || pic == undefined?<img class='user-pic' src="images/profile.png"></img>:<img class='user-pic' src={baseUrl+pic}></img>}
-                <div class='pic-btn'>
-                    <form>
+                <button className='pic-update-btn' onClick={()=>{document.getElementById('image-form').style.display = 'block';}}>+</button>
+                <h2>{name} <span onClick={()=>{document.getElementById('name-form').style.display = 'block';}}>Edit</span></h2>
+                <h4>{email}</h4>
+                <h4>{number}</h4>
+                <form id='image-form'>
                     <input name='profile' type='file' onChange={(e)=>{setValue(e);}}></input>
-                    <div>
-                       {pic == "" || pic == undefined?<button type='button' onClick={()=>{upload();}} className='update-btn'>Update</button> :  <button type='button' onClick={()=>{remove();}} className='remove-btn'>Remove</button>}
-                    </div>
-                    </form>
-                </div>
-                <div class='user-name'>
-                    <input id='name' type='text' value={name} disabled onChange={(e)=>{setName(e.target.value)}}></input>
-                    <img onClick={()=>{edit("name")}} src='images/edit.png'></img>
-                    <img onClick={()=>{update("name")}} src='images/ok.png'></img>
-                </div>
+                    <button type='button' onClick={()=>{uploadImg();}}>Upload Image</button>
+                </form>
+                <form id='name-form'>
+                    <input type='text' value={name} onChange={(e)=>{setName(e.target.value);}} placeholder='Enter Name'></input>
+                    <button type='button' onClick={()=>{updateName();}}>Update Name</button>
+                </form>
             </div>
             {isAdmin?
             <div>
-                <h1 style={{color:'white',textAlign:'center',marginTop:'50px',fontWeight:'500',fontSize:'40px'}}>List Of Properties</h1>
-                    <div style={{background:'transparent'}} className='listing-container'>
-                            <ul>
-                            {listProperty2}
-                            </ul>
+                <div>
+                    <h1 style={{color:'white',textAlign:'center',marginTop:'50px',fontWeight:'500',fontSize:'40px'}}>Interested Users</h1>
+                    <div class="interest-wrapper">
+                            {listInterest}
                     </div>
+                    </div>
+                    <div>
+                        <h1 style={{color:'white',textAlign:'center',marginTop:'50px',fontWeight:'500',fontSize:'40px'}}>List Of Properties</h1>
+                            <div style={{background:'transparent'}} className='listing-container'>
+                                    <ul>
+                                    {listProperty2}
+                                    </ul>
+                            </div>
+                </div>
             </div>
             :
             <div class="uploaded-property">

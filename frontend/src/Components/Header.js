@@ -12,6 +12,7 @@ import '../Styles/Header.css'
 import HomeCleaning from './HomeCleaning';
 import PestControl from './PestControl';
 import Sanitization from './Sanitization';
+import PackageListing from './PackageListing';
 
 export default function Header(props) {
 
@@ -85,6 +86,7 @@ export default function Header(props) {
                     <Route path="/HomeCleaning" exact component={HomeCleaning}/>
                     <Route path="/PestControl" exact component={PestControl}/>
                     <Route path="/Sanitization" exact component={Sanitization}/>
+                    <Route path="/PackageListing" exact component={PackageListing}/>
                 </Switch>
                 </div>
             </div>

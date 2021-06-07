@@ -155,7 +155,7 @@ export default function PostProperty() {
             }).then((res)=>{
                 alert(res.data.data);
             }).catch(res=>{
-                alert("sorry you are not authorised to do this action");
+                alert("Please Upload image in only (png, jpg, jpeg, webp, jfif) format");
             });
         }
     }

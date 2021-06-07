@@ -21,13 +21,14 @@ export default function Details(props) {
     var id = props.match.params.id;
 
     useEffect(() => {
-        console.log("ha");
         axios.post(baseUrl+"detailProperty",{id}).then((res)=>{
                 setproperty( res.data.data[0].PropertyDetails);
                 setimages(res.data.data[0].PropertyImages);
-                axios.post(baseUrl+'getUser',{id:res.data.data[0].PropertyDetails.userId}).then((res)=>{
+                var userid = res.data.data[0].PropertyDetails.userId;
+                console.log(userid);
+                axios.post(baseUrl+'getUser',{id: userid}).then((res)=>{
                     setName(res.data.data[0].name);
-                    setPic(res.data.data[0].dp);
+                    setPic(res.data.data[0].imageUrl);
                     setEmail(res.data.data[0].email);
                 });
         });

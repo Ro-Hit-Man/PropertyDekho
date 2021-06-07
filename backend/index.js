@@ -44,12 +44,25 @@ app.get('/PostProperty',(req,res)=>{
 app.get('/Listing',(req,res)=>{
     res.redirect('/');
 });
+app.get('/PackageListing',(req,res)=>{
+    res.redirect('/');
+});
 app.get('/Details',(req,res)=>{
     res.redirect('/');
 });
 app.get('/Details/id',(req,res)=>{
     res.redirect('/');
 });
+app.get('/HomeCleaning',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/PestControl',(req,res)=>{
+    res.redirect('/');
+});
+app.get('/Sanitization',(req,res)=>{
+    res.redirect('/');
+});
+
 
 
 app.post('/postProperty', bodyParser.json(),(req,res)=>{
@@ -197,7 +210,7 @@ app.post('/uploadDP', bodyParser.json(),(req,res)=>{
         else{
             var userCollection = connection.db('myhome').collection('user');
             var image = req.files.profile[0].filename;
-            userCollection.update({_id:ObjectID(req.body.id)},{$set:{dp:image}},(err,result)=>{
+            userCollection.update({_id:ObjectID(req.body.id)},{$set:{imageUrl:image}},(err,result)=>{
                 if(!err){
                     res.send({status:"ok",data:"File Uploaded Succesfully"});
                 }
@@ -211,7 +224,7 @@ app.post('/uploadDP', bodyParser.json(),(req,res)=>{
 
 app.post('/removeDP',bodyParser.json(),(req,res)=>{
     var userCollection = connection.db('myhome').collection('user');
-    userCollection.update({_id:ObjectID(req.body.id)},{$set:{dp:""}},(err,result)=>{
+    userCollection.update({_id:ObjectID(req.body.id)},{$set:{imageUrl:""}},(err,result)=>{
         if(!err){
             res.send({status:"ok",data:"DP Removed Succesfully"});
             if(fs.existsSync('./userUploads/'+req.body.dp)){
@@ -317,6 +330,101 @@ function sendMail(from, appPassword, to, subject,  htmlmsg){
         }
     });
 }
+
+
+app.post('/postService',bodyParser.json(),(req,res)=>{
+    upload(req,res,(err)=>{
+        if(err){
+            console.log("Error Occured during upload ");
+            console.log(err);
+            res.send({status:"failed", data:err});
+        }
+        else{
+            var serviceCollection = connection.db('myhome').collection('service');
+            var image = req.files.service[0].filename;
+            serviceCollection.insert({name:req.body.name,image:image,catagory:req.body.catagory},(err,result)=>{
+                if(!err){
+                    res.send({status:"ok",data:"Service Posted Succesfully"});
+                }
+                else{
+                    res.send({status:"failed",data:err});
+                }
+            });
+        }
+    });
+});
+
+app.post('/listService', bodyParser.json(),(req,res)=>{
+    var serviceCollection = connection.db('myhome').collection('service');
+    serviceCollection.find({}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data:docs});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
+
+app.post('/postPackage',bodyParser.json(),(req,res)=>{
+    var packageCollection = connection.db('myhome').collection('package');
+    packageCollection.insert(req.body,(err,result)=>{
+        if(!err){
+            res.send({status:"ok",data:"Package Posted Succesfully"});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
+
+app.post('/listPackage', bodyParser.json(),(req,res)=>{
+    var packageCollection = connection.db('myhome').collection('package');
+    packageCollection.find({}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data:docs});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
+
+app.post('/interested',bodyParser.json(),(req,res)=>{
+    var interestCollection = connection.db('myhome').collection('interest');
+    interestCollection.insert(req.body,(err,result)=>{
+        if(!err){
+            res.send({status:"ok",data:"We will contact you shortlly..."});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
+
+app.post('/listInterest', bodyParser.json(),(req,res)=>{
+    var interestCollection = connection.db('myhome').collection('interest');
+    interestCollection.find({}).toArray((err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data:docs});
+        }
+        else{
+            res.send({status:"failed",data:err});
+        }
+    });
+});
+
+app.post('/deleteInterest',bodyParser.json(),(req,res)=>{
+    var interestCollection = connection.db('myhome').collection('interest');
+    interestCollection.remove({_id:ObjectID(req.body.id)} ,(err,docs)=>{
+        if(!err){
+            res.send({status:"ok",data: "Deleted Successfully"});
+        }
+        else{
+            res.send({status:"failed",data: "Error Deleting...."});
+        }
+    });
+});
 
 app.listen(3000,()=>{
     console.log("Server is listing at port 3000");

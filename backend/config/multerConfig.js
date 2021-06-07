@@ -20,13 +20,19 @@ var multerOptions = {
                 var fieldName = file.fieldname;
                 
                 if(fieldName == "property"){
-                    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+                    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.webp' && ext !== '.jfif') {
                         return callback(new Error('Only images are allowed [ png , jpg & jpeg ]'));
                     }
                     callback(null, true);   
                 }
                 if(fieldName=="profile"){
-                    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+                    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.webp' && ext !== '.jfif') {
+                        return callback(new Error('Only images are allowed for profile'));
+                    }
+                    callback(null, true);
+                }
+                if(fieldName=="service"){
+                    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.webp' && ext !== '.jfif') {
                         return callback(new Error('Only images are allowed for profile'));
                     }
                     callback(null, true);
@@ -34,6 +40,6 @@ var multerOptions = {
             }
 }
 
-var upload = multer(multerOptions).fields([{name:"profile", maxCount:1},{name:'property' , maxCount:7}]);
+var upload = multer(multerOptions).fields([{name:"profile", maxCount:1},{name:'property' , maxCount:7},{name:'service',maxCount:1}]);
 
 module.exports = upload;

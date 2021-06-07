@@ -1,0 +1,52 @@
+.package-container-header{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.package-container-header button{
+    height: 40px;
+    width: 140px;
+    outline-style: none;
+    border: none;
+    color: white;
+    background-color:rgb(235, 57, 95);
+    margin: 10px;   
+}
+.package-wrapper{
+    height: fit-content;
+    width: 90%;
+    margin: 0 auto;
+}
+.package-item{
+    width: 100%;
+    height: fit-content;
+    box-shadow: 0 4px 8px 0 grey;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.package-item  h3{
+    margin: 10px;
+}
+.package-item h5{
+    margin: 10px;
+}
+.package-item h5 span{
+    color: black;
+}
+.package-item button{
+    height: 40px;
+    width: 140px;
+    outline-style: none;
+    border: none;
+    color: white;
+    background-color:rgb(235, 57, 95);
+    margin: 10px;   
+}
+li{
+    font-size: 14px;
+}
