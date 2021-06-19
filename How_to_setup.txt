@@ -12,7 +12,7 @@
 
 # Property Dekho Is live on
 
-http://3.141.244.250/
+http://18.221.159.79/
 
 # Git Repository Link
 
